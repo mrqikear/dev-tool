@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://devtext.io/sitemap.xml
+Sitemap: https://devtoolai.xyz/sitemap.xml

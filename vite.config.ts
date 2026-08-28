@@ -62,7 +62,7 @@ function localizedDevPlugin(): Plugin {
 
       const meta = localeMeta[localeCode] || localeMeta.en;
       const title = tool === 'cron' ? meta.cronTitle : tool === 'json' ? meta.jsonTitle : meta.caseTitle;
-      const targetCanonical = `https://devtext.io/${cleanPath ? cleanPath + '/' : ''}`;
+      const targetCanonical = `https://devtoolai.xyz/${cleanPath ? cleanPath + '/' : ''}`;
 
       return html
         .replace('<html lang="en">', `<html lang="${meta.lang}">`)

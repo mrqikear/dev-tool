@@ -1,218 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://devtext.io/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://devtext.io/es/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/es/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/ja/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/de/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/de/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/fr/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/zh/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/" />
+    <loc>https://devtoolai.xyz/zh/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://devtext.io/es/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/es/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/ja/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/ja/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/de/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/de/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/fr/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/fr/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/zh/cron/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/cron/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/cron/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/cron/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/cron/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/cron/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/cron/" />
+    <loc>https://devtoolai.xyz/zh/cron/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/cron/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/cron/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/cron/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/cron/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/cron/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/cron/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://devtext.io/es/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/es/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/ja/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/ja/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/de/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/de/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/fr/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/fr/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://devtext.io/zh/json/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://devtext.io/json/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://devtext.io/es/json/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://devtext.io/ja/json/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://devtext.io/de/json/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://devtext.io/fr/json/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://devtext.io/zh/json/" />
+    <loc>https://devtoolai.xyz/zh/json/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://devtoolai.xyz/json/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devtoolai.xyz/es/json/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://devtoolai.xyz/ja/json/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://devtoolai.xyz/de/json/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://devtoolai.xyz/fr/json/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://devtoolai.xyz/zh/json/" />
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
