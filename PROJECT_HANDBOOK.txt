@@ -1,0 +1,114 @@
+================================================================================
+                    DevText Toolkit (DevTool AI) 项目全景与运维手册
+================================================================================
+
+【一、项目核心信息概览】
+--------------------------------------------------------------------------------
+1. 官方线上网址:
+   - 正式生产主站: https://www.devtoolai.xyz
+   - 中文直达主页: https://www.devtoolai.xyz/zh/
+   - Cron 可视化:  https://www.devtoolai.xyz/zh/cron/
+   - JSON TS 工具: https://www.devtoolai.xyz/zh/json/
+
+2. 代码与托管资产:
+   - GitHub 仓库: https://github.com/mrqikear/dev-tool (分支: main)
+   - 本地项目目录: D:\jsworkspace\text-converter-toolkit
+   - 云端托管平台: Cloudflare Pages (永久免费 Serverless 全球边缘节点)
+   - 域名服务商:   阿里云万网 (DNS 托管至 Cloudflare 全球顶级网络)
+
+3. 核心技术栈:
+   - 前端架构: React 18 + Vite 4 + TypeScript + Tailwind CSS
+   - 性能特征: 100% 浏览器本地计算 (0 延迟、0 后端泄露、极速隐私)
+   - SEO / GEO: 纯物理静态预渲染 (SSG) + 6 大语种 Hreflang 矩阵 + 结构化数据
+
+
+【二、三大核心工具功能明细】
+--------------------------------------------------------------------------------
+1. 字母大小写与命名规范转换器 (Case & Text Converter):
+   - 支持 UPPERCASE、lowercase、Title Case、Sentence case、Capitalize Each Word
+   - 编程命名规范转换: camelCase (驼峰)、PascalCase (大驼峰)、snake_case (下划线)、
+     kebab-case (短横线)、CONSTANT_CASE (常量大写)、dot.case 等 21+ 种格式
+   - 支持空行清理、多余空格合并、一键剪贴板复制。
+
+2. Cron 表达式可视化解析与未来时间模拟器 (Cron Visualizer):
+   - 支持 Linux 5位标准、Spring 6位框架规范、Quartz 7位企业级调度表达式
+   - 独家智能工作日识别、L、W、# 等高级特殊字符本地化口语级翻译
+   - 动态推算并渲染未来 5 次真实精准执行时间轴。
+
+3. JSON 在线格式化、语法校验与 TS 生成器 (JSON Processor):
+   - 毫秒级 JSON 格式化、压缩、转义与反转义
+   - 精确到行列号的 6 国语言语法错误高亮提示
+   - 递归类型推断算法: 智能合并数组异构对象、递归去重哈希生成 TypeScript 接口定义。
+
+
+【三、多语言与 SEO / GEO 架构设计】
+--------------------------------------------------------------------------------
+1. 六大语言覆盖:
+   - 🇨🇳 中文 (zh)    - 🇺🇸 英语 (en / 默认)
+   - 🇪🇸 西班牙语 (es) - 🇯🇵 日语 (ja)
+   - 🇩🇪 德语 (de)    - 🇫🇷 法语 (fr)
+
+2. 18 个物理独立预渲染 URL (SSG):
+   - 首页: / , /zh/ , /es/ , /ja/ , /de/ , /fr/
+   - Cron: /cron/ , /zh/cron/ , /es/cron/ , /ja/cron/ , /de/cron/ , /fr/cron/
+   - JSON: /json/ , /zh/json/ , /es/json/ , /ja/json/ , /de/json/ , /fr/json/
+
+3. 搜索引擎合规文件:
+   - 站点地图: https://www.devtoolai.xyz/sitemap.xml (已提交 Google & Bing)
+   - 爬虫协议: https://www.devtoolai.xyz/robots.txt
+   - 社交大卡片: https://www.devtoolai.xyz/og-preview.png (1200x630 Apple 暗黑设计)
+
+
+【四、日常开发与全自动部署流程 (CI/CD)】
+--------------------------------------------------------------------------------
+1. 本地启动开发服务器:
+   cd D:\jsworkspace\text-converter-toolkit
+   npm run dev
+   (浏览器打开: http://127.0.0.1:3000)
+
+2. 本地全套自动化质量测试 (191 项测试用例):
+   node scripts/run-all-tests.js
+
+3. 提交发布新代码 (全自动云端构建):
+   git add .
+   git commit -m "更新说明"
+   git push origin main
+
+   ★ 工作机制:
+     当你执行 git push 后，GitHub 会自动触发 Webhook 通知 Cloudflare；
+     Cloudflare 云端容器会在 20~30 秒内全自动拉取、构建并发布到全球公网，
+     无需人工在网页上传任何文件！
+
+
+【五、流量查看与 SEO 监控平台】
+--------------------------------------------------------------------------------
+1. 全网访问量统计 (Cloudflare Analytics):
+   - 登录: https://dash.cloudflare.com
+   - 路径: 点击 devtoolai.xyz ➔ Analytics & Logs ➔ Traffic (流量)
+   - 指标: 每日真实独立访客 (UV)、请求总数、全球地理分布。
+
+2. 谷歌搜索监控 (Google Search Console):
+   - 登录: https://search.google.com/search-console
+   - 查看: 每日搜索展现量 (Impressions)、点击量、关键词排名。
+   - 地图提交地址: https://www.devtoolai.xyz/sitemap.xml
+
+3. 必应搜索监控 (Bing Webmaster Tools):
+   - 登录: https://www.bing.com/webmasters
+   - 查看: Bing / Yahoo 搜索点击与收录情况。
+
+
+【六、成本核算与后续商业化变现指引】
+--------------------------------------------------------------------------------
+1. 成本核算:
+   - 第一年总支出: 14 元人民币 (阿里云万网 .xyz 域名)
+   - Cloudflare 托管: 终身 0 元 (无限带宽、免费 SSL、免费 CDN)
+   - 第二年续费: 约 70 ~ 80 元人民币/年 (满 60 天后可转入 Cloudflare 原价续费)
+
+2. 变现路径规划:
+   - 阶段 A (即开即用): 接入 Buy Me a Coffee (国际信用卡打赏) 与微信/支付宝赞助。
+   - 阶段 B (上线 2~4 周后): 申请 Google AdSense 广告联盟 (中国大陆个人支持国内银行卡直接结汇收取美金)。
+   - 阶段 C (高日活期): 申请 Carbon Ads / EthicalAds 程序员专属高单价科技广告。
+
+================================================================================
+                      手册生成时间: 2026-08-28 (DevText Studio)
+================================================================================
