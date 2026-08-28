@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply font-sans bg-[#F5F5F7] dark:bg-[#000000] text-[#1D1D1F] dark:text-[#F5F5F7] selection:bg-[#0071E3]/20 selection:text-[#0071E3];
+  }
+
+  code, pre, kbd, samp {
+    @apply font-mono;
+    font-feature-settings: "liga" 0, "calt" 0;
+  }
+}
+
+@layer components {
+  /* macOS-Grade Standard Action Button - 14px comfortable reading size */
+  .apple-btn-clean {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-xl bg-white dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-[#F5F5F7] border border-black/[0.08] dark:border-white/[0.12] hover:bg-black/[0.03] dark:hover:bg-white/[0.06] hover:border-black/[0.14] dark:hover:border-white/[0.2] active:scale-[0.98] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer select-none tracking-tight;
+  }
+
+  /* macOS Mint/Green Tinted Accent Button */
+  .apple-btn-tint-green {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl bg-[#28CD41]/[0.10] dark:bg-[#30D158]/[0.18] text-[#137324] dark:text-[#30D158] border border-[#28CD41]/25 hover:bg-[#28CD41]/[0.16] active:scale-[0.98] transition-all shadow-[0_1px_2px_rgba(40,205,65,0.05)] cursor-pointer select-none tracking-tight;
+  }
+
+  /* macOS Amber/Orange Tinted Accent Button */
+  .apple-btn-tint-orange {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl bg-[#FF9500]/[0.10] dark:bg-[#FF9F0A]/[0.18] text-[#A05A00] dark:text-[#FF9F0A] border border-[#FF9500]/25 hover:bg-[#FF9500]/[0.16] active:scale-[0.98] transition-all shadow-[0_1px_2px_rgba(255,149,0,0.05)] cursor-pointer select-none tracking-tight;
+  }
+
+  /* macOS Secondary Neutral Button */
+  .apple-btn-secondary {
+    @apply inline-flex items-center justify-center px-3.5 py-2 text-sm font-medium rounded-xl bg-black/[0.04] dark:bg-white/[0.06] text-[#48484A] dark:text-[#AEAEB2] border border-black/[0.06] dark:border-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] active:scale-[0.98] transition-all cursor-pointer select-none tracking-tight;
+  }
+
+  /* macOS Primary Solid Blue Action (Copy / Run) */
+  .apple-btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] text-white transition-all shadow-[0_1px_3px_rgba(0,113,227,0.35)] cursor-pointer select-none tracking-tight;
+  }
+
+  /* macOS Danger Red Action (Clear / Reset) */
+  .apple-btn-danger {
+    @apply inline-flex items-center justify-center px-3.5 py-2 text-sm font-semibold rounded-xl bg-[#FF3B30]/[0.10] dark:bg-[#FF453A]/[0.18] text-[#D70015] dark:text-[#FF453A] border border-[#FF3B30]/25 hover:bg-[#FF3B30]/[0.16] active:scale-[0.98] transition-all cursor-pointer select-none tracking-tight;
+  }
+}
+
+/* Subtle Apple Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.14);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}

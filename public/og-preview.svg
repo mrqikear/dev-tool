@@ -1,0 +1,33 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0D0D11" />
+  <circle cx="200" cy="150" r="300" fill="#0071E3" fill-opacity="0.15" filter="blur(120px)" />
+  <circle cx="1000" cy="480" r="280" fill="#28CD41" fill-opacity="0.12" filter="blur(120px)" />
+  
+  <rect x="80" y="80" width="1040" height="470" rx="32" fill="#1C1C1E" fill-opacity="0.75" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2" />
+  
+  <!-- Logo Badge -->
+  <rect x="140" y="140" width="80" height="80" rx="24" fill="url(#brand_grad)" />
+  <path d="M180 162L184 174L196 178L184 182L180 194L176 182L164 178L176 174L180 162Z" fill="white" />
+  
+  <text x="250" y="195" fill="#F5F5F7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="52" font-weight="800" letter-spacing="-1">DevText Toolkit</text>
+  <text x="140" y="280" fill="#F5F5F7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="34" font-weight="700">3-in-1 Developer Utility Suite</text>
+  
+  <text x="140" y="340" fill="#86868B" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="22" font-weight="500">⚡ Letter Case &amp; Naming Converter  ·  ⏱️ Cron Visualizer  ·  🛡️ JSON &amp; TypeScript</text>
+  
+  <!-- Pill Badges -->
+  <rect x="140" y="400" width="220" height="48" rx="24" fill="#0071E3" fill-opacity="0.2" stroke="#0071E3" stroke-width="1.5" />
+  <text x="175" y="431" fill="#2997FF" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700">100% In-Browser</text>
+  
+  <rect x="380" y="400" width="200" height="48" rx="24" fill="#28CD41" fill-opacity="0.2" stroke="#28CD41" stroke-width="1.5" />
+  <text x="415" y="431" fill="#30D158" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700">Zero Data Leak</text>
+  
+  <rect x="600" y="400" width="220" height="48" rx="24" fill="#FF9500" fill-opacity="0.2" stroke="#FF9500" stroke-width="1.5" />
+  <text x="635" y="431" fill="#FF9F0A" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700">6 Languages</text>
+  
+  <defs>
+    <linearGradient id="brand_grad" x1="140" y1="140" x2="220" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0071E3" />
+      <stop offset="1" stop-color="#47A1FF" />
+    </linearGradient>
+  </defs>
+</svg>
