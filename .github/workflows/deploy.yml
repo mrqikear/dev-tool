@@ -1,0 +1,32 @@
+name: Build & Test DevText Toolkit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Quality Test Suite (191 Unit & SEO Tests)
+        run: node scripts/run-all-tests.js
+
+      - name: Build Production SSG & Sitemap
+        run: npm run build
