@@ -38,6 +38,7 @@ export function App() {
 
   const [isDark, setIsDark] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'about' | null>(null);
 
   const t = translations[locale] || translations.en;
 
@@ -300,42 +301,115 @@ export function App() {
             <span>—</span>
             <span>{t.nav.footerSubtitle}</span>
           </div>
-          <div className="flex items-center space-x-4">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                updateRoute('case', locale);
-              }}
-              className="hover:underline"
+          <div className="flex items-center space-x-3 text-xs flex-wrap gap-y-2">
+            <button
+              onClick={() => setActiveModal('privacy')}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              {t.nav.caseConverter}
-            </a>
+              Privacy Policy
+            </button>
             <span>•</span>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                updateRoute('cron', locale);
-              }}
-              className="hover:underline"
+            <button
+              onClick={() => setActiveModal('terms')}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              {t.nav.cronVisualizer}
-            </a>
+              Terms of Service
+            </button>
             <span>•</span>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                updateRoute('json', locale);
-              }}
-              className="hover:underline"
+            <button
+              onClick={() => setActiveModal('about')}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              {t.nav.jsonProcessor}
-            </a>
+              About & Contact
+            </button>
           </div>
         </div>
       </footer>
+
+      {/* Compliance Policy & About Modal */}
+      {activeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white dark:bg-[#1C1C1E] max-w-2xl w-full rounded-2xl p-6 shadow-2xl border border-black/10 dark:border-white/10 max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10 mb-4">
+              <h3 className="text-lg font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">
+                {activeModal === 'privacy' && 'Privacy Policy'}
+                {activeModal === 'terms' && 'Terms of Service'}
+                {activeModal === 'about' && 'About & Contact Us'}
+              </h3>
+              <button
+                onClick={() => setActiveModal(null)}
+                className="px-3 py-1 text-xs font-semibold rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[#1D1D1F] dark:text-[#F5F5F7] transition-all"
+              >
+                Close ✕
+              </button>
+            </div>
+
+            <div className="text-xs text-[#48484A] dark:text-[#AEAEB2] space-y-4 leading-relaxed">
+              {activeModal === 'privacy' && (
+                <>
+                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Last Updated: August 2026</p>
+                  <p>
+                    At <strong>DevText Toolkit (devtoolai.xyz)</strong>, accessible from https://www.devtoolai.xyz, one of our main priorities is the privacy of our visitors. This Privacy Policy document outlines the types of information that is collected and recorded by devtoolai.xyz and how we use it.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Client-Side Data Security</h4>
+                  <p>
+                    All text conversions, Cron parsing, and JSON TypeScript interfaces are computed <strong>100% locally within your client web browser</strong>. No code, text snippets, payloads, or developer inputs are ever transmitted to or stored on our servers.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Log Files & Analytics</h4>
+                  <p>
+                    devtoolai.xyz follows standard serverless analytics procedures. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date/time stamps, and referring/exit pages for security diagnostics.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookies and Web Beacons</h4>
+                  <p>
+                    Like any other website, devtoolai.xyz uses cookies to store information including visitors preferences and the pages on the website that the visitor accessed or visited.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. Google DoubleClick DART Cookie & Third-Party Advertising</h4>
+                  <p>
+                    Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to devtoolai.xyz and other sites on the internet. Visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">5. GDPR & CCPA Compliance</h4>
+                  <p>
+                    If you are a resident of the European Economic Area (EEA) or California, you have certain data protection rights under GDPR and CCPA. Contact us anytime to exercise these rights.
+                  </p>
+                </>
+              )}
+
+              {activeModal === 'terms' && (
+                <>
+                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
+                  <p>
+                    By accessing this website at https://www.devtoolai.xyz, you are agreeing to be bound by these website Terms and Conditions of Use, all applicable laws, and regulations.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. License & Use</h4>
+                  <p>
+                    Permission is granted to freely use DevText Toolkit for personal, commercial, and enterprise developer utilities. All generated code and converted strings are free from licensing restrictions.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Disclaimer</h4>
+                  <p>
+                    The developer tools and utilities on devtoolai.xyz are provided on an "as is" basis without warranties of any kind.
+                  </p>
+                </>
+              )}
+
+              {activeModal === 'about' && (
+                <>
+                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">About DevText Studio</p>
+                  <p>
+                    <strong>DevText Studio</strong> is an independent open engineering lab dedicated to providing fast, privacy-first, zero-latency developer utilities (Case Converters, Cron Visualizers, JSON Formatters) for global engineers.
+                  </p>
+                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contact Us</h4>
+                  <p>
+                    If you have questions, bug reports, feature suggestions, or business inquiries, please reach out directly:
+                  </p>
+                  <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                    📧 Official Support Email: support@devtoolai.xyz
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 浮动 Toast 提示 */}
       {toastMessage && (
