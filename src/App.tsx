@@ -306,21 +306,21 @@ export function App() {
               onClick={() => setActiveModal('privacy')}
               className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              Privacy Policy
+              {t.nav.privacyPolicy}
             </button>
             <span>•</span>
             <button
               onClick={() => setActiveModal('terms')}
               className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              Terms of Service
+              {t.nav.termsOfService}
             </button>
             <span>•</span>
             <button
               onClick={() => setActiveModal('about')}
               className="hover:underline text-[#86868B] hover:text-[#0071E3]"
             >
-              About & Contact
+              {t.nav.aboutContact}
             </button>
           </div>
         </div>
@@ -332,9 +332,9 @@ export function App() {
           <div className="bg-white dark:bg-[#1C1C1E] max-w-2xl w-full rounded-2xl p-6 shadow-2xl border border-black/10 dark:border-white/10 max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10 mb-4">
               <h3 className="text-lg font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">
-                {activeModal === 'privacy' && 'Privacy Policy'}
-                {activeModal === 'terms' && 'Terms of Service'}
-                {activeModal === 'about' && 'About & Contact Us'}
+                {activeModal === 'privacy' && t.nav.privacyPolicy}
+                {activeModal === 'terms' && t.nav.termsOfService}
+                {activeModal === 'about' && t.nav.aboutContact}
               </h3>
               <button
                 onClick={() => setActiveModal(null)}

@@ -34,6 +34,9 @@ export interface Translation {
     zeroLatency: string;
     footerTitle: string;
     footerSubtitle: string;
+    privacyPolicy: string;
+    termsOfService: string;
+    aboutContact: string;
   };
   case: {
     title: string;
@@ -198,6 +201,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Zero Latency Engine',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'High-Performance Developer Utilities',
+      privacyPolicy: 'Privacy Policy',
+      termsOfService: 'Terms of Service',
+      aboutContact: 'About & Contact',
     },
     case: {
       title: 'Case & Code Naming Converter',
@@ -392,6 +398,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Procesamiento Instantáneo',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Utilidades de Alto Rendimiento para Desarrolladores',
+      privacyPolicy: 'Política de Privacidad',
+      termsOfService: 'Términos de Servicio',
+      aboutContact: 'Acerca de y Contacto',
     },
     case: {
       title: 'Conversor de Mayúsculas y Nomenclaturas',
@@ -578,6 +587,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'ゼロ遅延・高速変換',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'エンジニア向け高効率テキスト＆Cronユーティリティ',
+      privacyPolicy: 'プライバシーポリシー',
+      termsOfService: '利用規約',
+      aboutContact: '運営者・お問い合わせ',
     },
     case: {
       title: '英字ケース＆コード命名規則 変換ツール',
@@ -764,6 +776,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Null-Latenz-Engine',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Hochleistungs-Entwickler-Werkzeuge',
+      privacyPolicy: 'Datenschutzerklärung',
+      termsOfService: 'Nutzungsbedingungen',
+      aboutContact: 'Über uns & Kontakt',
     },
     case: {
       title: 'Schreibweisen- & Code-Konverter',
@@ -946,6 +961,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Moteur Zéro Latence',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Utilitaires Développeurs Haute Performance',
+      privacyPolicy: 'Confidentialité',
+      termsOfService: 'Conditions d\'utilisation',
+      aboutContact: 'À propos & Contact',
     },
     case: {
       title: 'Convertisseur de Casse & Conventions de Code',
@@ -1128,6 +1146,9 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: '瞬时零延迟引擎',
       footerTitle: 'DevText 开发者工具箱',
       footerSubtitle: '专注极致性能的高效开发生产力套件',
+      privacyPolicy: '隐私政策',
+      termsOfService: '服务条款',
+      aboutContact: '关于与联系',
     },
     case: {
       title: '英文字母大小写与代码命名规范转换器',
