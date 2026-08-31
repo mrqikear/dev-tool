@@ -347,63 +347,134 @@ export function App() {
             <div className="text-xs text-[#48484A] dark:text-[#AEAEB2] space-y-4 leading-relaxed">
               {activeModal === 'privacy' && (
                 <>
-                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Last Updated: August 2026</p>
-                  <p>
-                    At <strong>DevText Toolkit (devtoolai.xyz)</strong>, accessible from https://www.devtoolai.xyz, one of our main priorities is the privacy of our visitors. This Privacy Policy document outlines the types of information that is collected and recorded by devtoolai.xyz and how we use it.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Client-Side Data Security</h4>
-                  <p>
-                    All text conversions, Cron parsing, and JSON TypeScript interfaces are computed <strong>100% locally within your client web browser</strong>. No code, text snippets, payloads, or developer inputs are ever transmitted to or stored on our servers.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Log Files & Analytics</h4>
-                  <p>
-                    devtoolai.xyz follows standard serverless analytics procedures. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date/time stamps, and referring/exit pages for security diagnostics.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookies and Web Beacons</h4>
-                  <p>
-                    Like any other website, devtoolai.xyz uses cookies to store information including visitors preferences and the pages on the website that the visitor accessed or visited.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. Google DoubleClick DART Cookie & Third-Party Advertising</h4>
-                  <p>
-                    Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to devtoolai.xyz and other sites on the internet. Visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">5. GDPR & CCPA Compliance</h4>
-                  <p>
-                    If you are a resident of the European Economic Area (EEA) or California, you have certain data protection rights under GDPR and CCPA. Contact us anytime to exercise these rights.
-                  </p>
+                  {locale === 'zh' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">最后更新日期：2026 年 8 月</p>
+                      <p>
+                        欢迎访问 <strong>DevText Toolkit (devtoolai.xyz)</strong>。我们高度重视全球开发者的隐私与数据安全。本隐私政策阐明了我们在您使用本站服务时所遵循的隐私规范与数据处理机制。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 100% 浏览器客户端隐私安全保障</h4>
+                      <p>
+                        我们提供的字母大小写转换、Cron 表达式解析与模拟、JSON 格式化与 TypeScript 接口生成等所有核心功能，<strong>全部 100% 在您的本地浏览器内存中计算完成</strong>。您的任何代码、敏感参数、数据片段或隐私文本均绝不会被上传或存储至我们的服务器。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 服务器日志与分析</h4>
+                      <p>
+                        devtoolai.xyz 遵循标准的 Serverless 日志与统计程序。收集的信息包括匿名 IP 地址、浏览器类型、时间戳及访问页面，仅用于安全防护与性能诊断。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookie 与第三方广告政策</h4>
+                      <p>
+                        本站可能使用 Cookie 记录用户的主题偏好。Google 作为第三方广告供应商，使用 DART Cookie 根据用户对本站及互联网其他站点的访问提供广告服务。用户可访问 <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">Google 广告隐私政策</a> 自行管理或停用 Cookie。
+                      </p>
+                    </>
+                  ) : locale === 'ja' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">最終更新日：2026年8月</p>
+                      <p>
+                        <strong>DevText Toolkit (devtoolai.xyz)</strong> では、利用者の皆様のプライバシー保護を最優先事項としております。本プライバシーポリシーでは、当サイトで記録される情報の種類とその利用方法について説明します。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 完全なクライアント側ローカル実行とデータ保護</h4>
+                      <p>
+                        当ツールのすべてのテキスト変換、Cron解析、JSON/TypeScript生成は、<strong>100% お使いのブラウザ内部でローカルに実行されます</strong>。入力されたコードや機密データが外部サーバーに送信・保存されることは一切ありません。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookie および Google 広告ポリシー</h4>
+                      <p>
+                        当サイトでは利便性向上のため Cookie を使用する場合があります。Google などの第三者配信事業者は Cookie を使用して広告を配信します。詳細および無効化については Google の <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">広告ポリシー</a> をご確認ください。
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Last Updated: August 2026</p>
+                      <p>
+                        At <strong>DevText Toolkit (devtoolai.xyz)</strong>, accessible from https://www.devtoolai.xyz, one of our main priorities is the privacy of our visitors. This Privacy Policy document outlines the types of information collected and how we protect your data.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Client-Side Data Security (100% In-Browser)</h4>
+                      <p>
+                        All text conversions, Cron parsing, and JSON TypeScript interfaces are computed <strong>100% locally within your client web browser</strong>. No code, text snippets, payloads, or developer inputs are ever transmitted to or stored on our servers.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Log Files & Analytics</h4>
+                      <p>
+                        devtoolai.xyz follows standard serverless analytics procedures. The information collected includes IP addresses, browser types, timestamps, and referring pages strictly for security diagnostics.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Google DART Cookie & Third-Party Advertising</h4>
+                      <p>
+                        Google, as a third-party vendor, uses DART cookies to serve ads to our site visitors. Visitors may opt out of the use of DART cookies by visiting the Google ad network Privacy Policy at: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. GDPR & CCPA Compliance</h4>
+                      <p>
+                        We fully respect your data protection rights under GDPR and CCPA. Contact us anytime to exercise these rights.
+                      </p>
+                    </>
+                  )}
                 </>
               )}
 
               {activeModal === 'terms' && (
                 <>
-                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
-                  <p>
-                    By accessing this website at https://www.devtoolai.xyz, you are agreeing to be bound by these website Terms and Conditions of Use, all applicable laws, and regulations.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. License & Use</h4>
-                  <p>
-                    Permission is granted to freely use DevText Toolkit for personal, commercial, and enterprise developer utilities. All generated code and converted strings are free from licensing restrictions.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Disclaimer</h4>
-                  <p>
-                    The developer tools and utilities on devtoolai.xyz are provided on an "as is" basis without warranties of any kind.
-                  </p>
+                  {locale === 'zh' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">服务条款与使用协议</p>
+                      <p>
+                        访问或使用 https://www.devtoolai.xyz 即表示您同意遵守本服务条款以及所有适用的法律法规。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 免费授权与使用范围</h4>
+                      <p>
+                        DevText Toolkit 免费授权所有个人、企业及开源开发者用于日常开发、商业项目及生产环境中的文本格式化与代码生成。由本工具生成的所有代码与结果不受任何版权约束。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 免责声明</h4>
+                      <p>
+                        本站所有工具均按“现状”提供，不包含任何明示或暗示的保证。
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
+                      <p>
+                        By accessing this website at https://www.devtoolai.xyz, you agree to be bound by these Terms and Conditions of Use and all applicable laws.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. License & Commercial Use</h4>
+                      <p>
+                        Permission is granted to freely use DevText Toolkit for personal, commercial, and enterprise developer utilities. All generated code and converted strings are free from licensing restrictions.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Disclaimer</h4>
+                      <p>
+                        The developer tools and utilities on devtoolai.xyz are provided on an "as is" basis without warranties of any kind.
+                      </p>
+                    </>
+                  )}
                 </>
               )}
 
               {activeModal === 'about' && (
                 <>
-                  <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">About DevText Studio</p>
-                  <p>
-                    <strong>DevText Studio</strong> is an independent open engineering lab dedicated to providing fast, privacy-first, zero-latency developer utilities (Case Converters, Cron Visualizers, JSON Formatters) for global engineers.
-                  </p>
-                  <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contact Us</h4>
-                  <p>
-                    If you have questions, bug reports, feature suggestions, or business inquiries, please reach out directly:
-                  </p>
-                  <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                    📧 Official Support Email: support@devtoolai.xyz
-                  </p>
+                  {locale === 'zh' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">关于 DevText Studio</p>
+                      <p>
+                        <strong>DevText Studio</strong> 是由独立工程师发起的高性能极客工具实验室，致力于为全球开发者打造极致纯粹、100% 浏览器本地运行、零延迟、零数据泄露的现代开发者工具箱。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">官方联系方式</h4>
+                      <p>
+                        如果您有任何功能建议、Bug 反馈或商业合作需求，欢迎随时与我们联系：
+                      </p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 官方支持邮箱：support@devtoolai.xyz
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">About DevText Studio</p>
+                      <p>
+                        <strong>DevText Studio</strong> is an independent open engineering lab dedicated to providing fast, privacy-first, zero-latency developer utilities (Case Converters, Cron Visualizers, JSON Formatters) for global engineers.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contact Us</h4>
+                      <p>
+                        If you have questions, bug reports, feature suggestions, or business inquiries, please reach out directly:
+                      </p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 Official Support Email: support@devtoolai.xyz
+                      </p>
+                    </>
+                  )}
                 </>
               )}
             </div>
