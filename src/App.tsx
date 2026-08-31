@@ -340,7 +340,7 @@ export function App() {
                 onClick={() => setActiveModal(null)}
                 className="px-3 py-1 text-xs font-semibold rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[#1D1D1F] dark:text-[#F5F5F7] transition-all"
               >
-                Close ✕
+                {locale === 'zh' ? '关闭 ✕' : locale === 'ja' ? '閉じる ✕' : locale === 'es' ? 'Cerrar ✕' : locale === 'de' ? 'Schließen ✕' : locale === 'fr' ? 'Fermer ✕' : 'Close ✕'}
               </button>
             </div>
 
@@ -365,6 +365,10 @@ export function App() {
                       <p>
                         本站可能使用 Cookie 记录用户的主题偏好。Google 作为第三方广告供应商，使用 DART Cookie 根据用户对本站及互联网其他站点的访问提供广告服务。用户可访问 <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">Google 广告隐私政策</a> 自行管理或停用 Cookie。
                       </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. GDPR 与 CCPA 合规保障</h4>
+                      <p>
+                        我们充分尊重您在 GDPR 和 CCPA 框架下的合法数据权益。您可随时通过联系我们行使相关权利。
+                      </p>
                     </>
                   ) : locale === 'ja' ? (
                     <>
@@ -376,7 +380,11 @@ export function App() {
                       <p>
                         当ツールのすべてのテキスト変換、Cron解析、JSON/TypeScript生成は、<strong>100% お使いのブラウザ内部でローカルに実行されます</strong>。入力されたコードや機密データが外部サーバーに送信・保存されることは一切ありません。
                       </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookie および Google 広告ポリシー</h4>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. ログファイルおよびアクセス解析</h4>
+                      <p>
+                        devtoolai.xyz はサーバーレス標準の解析プロトコルに従います。収集される情報にはIPアドレス、ブラウザの種類、アクセス日時が含まれ、不正アクセスの防御とパフォーマンス診断にのみ使用されます。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookie および Google 広告ポリシー</h4>
                       <p>
                         当サイトでは利便性向上のため Cookie を使用する場合があります。Google などの第三者配信事業者は Cookie を使用して広告を配信します。詳細および無効化については Google の <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">広告ポリシー</a> をご確認ください。
                       </p>
@@ -425,6 +433,21 @@ export function App() {
                         本站所有工具均按“现状”提供，不包含任何明示或暗示的保证。
                       </p>
                     </>
+                  ) : locale === 'ja' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">利用規約</p>
+                      <p>
+                        当ウェブサイト（https://www.devtoolai.xyz）をご利用いただくことで、本利用規約および関連法令に同意いただいたものとみなします。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 無料ライセンスおよび商用利用</h4>
+                      <p>
+                        DevText Toolkit は、個人利用・商用利用・オープンソース開発を問わず完全無料でご利用いただけます。当ツールによって変換・生成されたコードおよび文字列には著作権上の制限は一切ありません。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 免責事項</h4>
+                      <p>
+                        当ツールの提供する変換機能および計算結果は現状有姿で提供されるものであり、明示的または黙示的な保証を伴うものではありません。
+                      </p>
+                    </>
                   ) : (
                     <>
                       <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
@@ -458,6 +481,20 @@ export function App() {
                       </p>
                       <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
                         📧 官方支持邮箱：360240492@qq.com
+                      </p>
+                    </>
+                  ) : locale === 'ja' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">DevText Studio について</p>
+                      <p>
+                        <strong>DevText Studio</strong> は、世界中のエンジニアに向けて、100% ブラウザ内ローカル処理・ゼロ遅延・高セキュリティな開発者向けユーティリティ（ケース変換、Cron式ビジュアライザー、JSON/TypeScript生成）を提供するオープンエンジニアリングラボです。
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">お問い合わせ・サポート</h4>
+                      <p>
+                        機能のご要望、不具合の報告、またはビジネスに関するお問い合わせは、下記公式サポート窓口までお気軽にご連絡ください：
+                      </p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 公式サポートメール：360240492@qq.com
                       </p>
                     </>
                   ) : (
