@@ -457,7 +457,7 @@ export function App() {
                         如果您有任何功能建议、Bug 反馈或商业合作需求，欢迎随时与我们联系：
                       </p>
                       <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 官方支持邮箱：support@devtoolai.xyz
+                        📧 官方支持邮箱：360240492@qq.com
                       </p>
                     </>
                   ) : (
@@ -471,7 +471,7 @@ export function App() {
                         If you have questions, bug reports, feature suggestions, or business inquiries, please reach out directly:
                       </p>
                       <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 Official Support Email: support@devtoolai.xyz
+                        📧 Official Support Email: 360240492@qq.com
                       </p>
                     </>
                   )}
