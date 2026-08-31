@@ -389,6 +389,51 @@ export function App() {
                         当サイトでは利便性向上のため Cookie を使用する場合があります。Google などの第三者配信事業者は Cookie を使用して広告を配信します。詳細および無効化については Google の <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">広告ポリシー</a> をご確認ください。
                       </p>
                     </>
+                  ) : locale === 'es' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Última actualización: Agosto de 2026</p>
+                      <p>
+                        En <strong>DevText Toolkit (devtoolai.xyz)</strong>, accesible desde https://www.devtoolai.xyz, una de nuestras principales prioridades es la privacidad de nuestros visitantes.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Seguridad 100% en el Navegador</h4>
+                      <p>
+                        Todas las conversiones de texto, análisis de expresiones Cron y generación de interfaces TypeScript se calculan <strong>100% localmente en su navegador web</strong>. Ningún dato se envía ni se almacena en nuestros servidores.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies y Publicidad de Google</h4>
+                      <p>
+                        Google, como proveedor externo, utiliza cookies DART para mostrar anuncios a los visitantes. Puede consultar la política de Google en: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
+                      </p>
+                    </>
+                  ) : locale === 'de' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Stand: August 2026</p>
+                      <p>
+                        Der Schutz Ihrer Daten bei <strong>DevText Toolkit (devtoolai.xyz)</strong> hat für uns höchste Priorität.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 100% Lokale Browser-Sicherheit</h4>
+                      <p>
+                        Alle Textkonvertierungen, Cron-Berechnungen und TypeScript-Generierungen werden <strong>vollständig lokal im Speicher Ihres Browsers</strong> ausgeführt. Es werden keinerlei Daten an Server übertragen.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies & Google-Werberichtlinien</h4>
+                      <p>
+                        Google verwendet als Drittanbieter DART-Cookies zur Schaltung von Werbung. Weitere Informationen finden Sie unter: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
+                      </p>
+                    </>
+                  ) : locale === 'fr' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Dernière mise à jour : Août 2026</p>
+                      <p>
+                        Chez <strong>DevText Toolkit (devtoolai.xyz)</strong>, la confidentialité de nos visiteurs est essentielle.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Sécurité 100% Locale dans le Navigateur</h4>
+                      <p>
+                        Toutes les conversions de texte, validations Cron et interfaces TypeScript sont exécutées <strong>100% localement dans votre navigateur</strong>. Aucune donnée n'est transmise à nos serveurs.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies et Publicités Google</h4>
+                      <p>
+                        Google utilise des cookies DART pour diffuser des annonces. Consultez la politique Google : <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
+                      </p>
+                    </>
                   ) : (
                     <>
                       <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Last Updated: August 2026</p>
@@ -448,6 +493,39 @@ export function App() {
                         当ツールの提供する変換機能および計算結果は現状有姿で提供されるものであり、明示的または黙示的な保証を伴うものではありません。
                       </p>
                     </>
+                  ) : locale === 'es' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Términos y Condiciones</p>
+                      <p>
+                        Al acceder a https://www.devtoolai.xyz, acepta cumplir con estos Términos y Condiciones de uso.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Licencia y Uso Gratuito</h4>
+                      <p>
+                        Se concede permiso para utilizar DevText Toolkit libremente para proyectos personales, comerciales y empresariales.
+                      </p>
+                    </>
+                  ) : locale === 'de' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Nutzungsbedingungen</p>
+                      <p>
+                        Mit dem Zugriff auf https://www.devtoolai.xyz stimmen Sie diesen Nutzungsbedingungen zu.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Lizenz & Kommerzielle Nutzung</h4>
+                      <p>
+                        DevText Toolkit darf für persönliche und kommerzielle Softwareprojekte uneingeschränkt und kostenfrei genutzt werden.
+                      </p>
+                    </>
+                  ) : locale === 'fr' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Conditions d'Utilisation</p>
+                      <p>
+                        En accédant à https://www.devtoolai.xyz, vous acceptez d'être lié par les présentes conditions.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Licence et Utilisation</h4>
+                      <p>
+                        DevText Toolkit est gratuit pour un usage personnel et commercial dans le développement d'applications.
+                      </p>
+                    </>
                   ) : (
                     <>
                       <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
@@ -495,6 +573,42 @@ export function App() {
                       </p>
                       <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
                         📧 公式サポートメール：360240492@qq.com
+                      </p>
+                    </>
+                  ) : locale === 'es' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Acerca de DevText Studio</p>
+                      <p>
+                        <strong>DevText Studio</strong> es un laboratorio de ingeniería que ofrece herramientas de alta velocidad, 100% locales en el navegador y con cero latencia para desarrolladores globales.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contacto</h4>
+                      <p>Para consultas, sugerencias o soporte:</p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 Correo oficial: 360240492@qq.com
+                      </p>
+                    </>
+                  ) : locale === 'de' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Über DevText Studio</p>
+                      <p>
+                        <strong>DevText Studio</strong> entwickelt datenschutzorientierte, ultraschnelle Entwickler-Tools, die vollständig lokal im Webbrowser ausgeführt werden.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Kontakt</h4>
+                      <p>Bei Fragen, Feedback oder geschäftlichen Anfragen:</p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 Offizielle Support-E-Mail: 360240492@qq.com
+                      </p>
+                    </>
+                  ) : locale === 'fr' ? (
+                    <>
+                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">À propos de DevText Studio</p>
+                      <p>
+                        <strong>DevText Studio</strong> est un laboratoire d'ingénierie fournissant des utilitaires haute performance, sécurisés et 100% exécutés dans le navigateur pour les développeurs.
+                      </p>
+                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contactez-nous</h4>
+                      <p>Pour toute question ou suggestion :</p>
+                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
+                        📧 Email de support officiel : 360240492@qq.com
                       </p>
                     </>
                   ) : (
