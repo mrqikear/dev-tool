@@ -53,6 +53,45 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [showHighlighted, setShowHighlighted] = useState<boolean>(true);
 
+  // 全屏切换与同步
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      setIsFullscreen(true);
+      showToast(t.views.fullscreen + ' ✓');
+    } else {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      setIsFullscreen(false);
+      showToast(t.views.exitFullscreen + ' ✓');
+    }
+  };
+
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        if (document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+        setIsFullscreen(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullscreen]);
+
   // 实时校验状态
   const validation = useMemo(() => {
     return validateJson(input);
@@ -188,57 +227,59 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
   };
 
   return (
-    <div className={`space-y-6 ${isFullscreen ? 'fixed inset-0 z-50 bg-[#F5F5F7] dark:bg-[#000000] p-4 sm:p-6 overflow-y-auto' : ''}`}>
-      {/* 顶部标题与安全角标 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.12] p-4 rounded-3xl shadow-sm">
-        <div className="space-y-1">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#0071E3]/10 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center font-bold">
-              <FileCode className="w-4 h-4" />
+    <div className={`space-y-6 ${isFullscreen ? 'fixed inset-0 z-[9999] bg-[#F5F5F7] dark:bg-[#000000] p-3 sm:p-5 flex flex-col h-screen w-screen overflow-hidden' : ''}`}>
+      {/* 顶部标题与安全角标（非全屏模式下显示） */}
+      {!isFullscreen && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.12] p-4 rounded-3xl shadow-sm">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-xl bg-[#0071E3]/10 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center font-bold">
+                <FileCode className="w-4 h-4" />
+              </div>
+              <h1 className="text-lg sm:text-xl font-bold text-[#1D1D1F] dark:text-[#F5F5F7] tracking-tight">
+                {t.title}
+              </h1>
             </div>
-            <h1 className="text-lg sm:text-xl font-bold text-[#1D1D1F] dark:text-[#F5F5F7] tracking-tight">
-              {t.title}
-            </h1>
+            <p className="text-xs sm:text-sm text-[#86868B] pl-10">
+              {t.subtitle}
+            </p>
           </div>
-          <p className="text-xs sm:text-sm text-[#86868B] pl-10">
-            {t.subtitle}
-          </p>
-        </div>
 
-        <div className="flex items-center space-x-2 pl-10 sm:pl-0">
-          <span className="whitespace-nowrap inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#28CD41]/10 text-[#28CD41]">
-            <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
-            {t.badge}
-          </span>
+          <div className="flex items-center space-x-2 pl-10 sm:pl-0">
+            <span className="whitespace-nowrap inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#28CD41]/10 text-[#28CD41]">
+              <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+              {t.badge}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 快捷操作工具栏 (Apple SF 风格操作按钮) */}
-      <div className="bg-white/90 dark:bg-[#1C1C1E]/90 backdrop-blur-2xl border border-black/[0.08] dark:border-white/[0.12] rounded-3xl p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className={`bg-white/95 dark:bg-[#1C1C1E]/95 backdrop-blur-2xl border border-black/[0.08] dark:border-white/[0.12] rounded-3xl p-4 sm:p-5 shadow-sm space-y-3 ${isFullscreen ? 'flex-1 flex flex-col min-h-0 overflow-hidden' : ''}`}>
+        <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
           {/* 主力高亮操作按钮 */}
           <button
             onClick={() => handleFormat(2)}
-            className="apple-btn apple-btn-primary flex items-center space-x-1.5"
+            className="apple-btn apple-btn-primary flex items-center space-x-1.5 text-xs sm:text-sm"
           >
             <Sparkles className="w-4 h-4" />
             <span>{t.buttons.format2}</span>
           </button>
           <button
             onClick={() => handleFormat(4)}
-            className="apple-btn apple-btn-secondary"
+            className="apple-btn apple-btn-secondary text-xs sm:text-sm"
           >
             {t.buttons.format4}
           </button>
           <button
             onClick={handleMinify}
-            className="apple-btn apple-btn-secondary"
+            className="apple-btn apple-btn-secondary text-xs sm:text-sm"
           >
             {t.buttons.minify}
           </button>
           <button
             onClick={handleToTypeScript}
-            className="apple-btn apple-btn-tint-orange font-bold flex items-center space-x-1.5"
+            className="apple-btn apple-btn-tint-orange font-bold flex items-center space-x-1.5 text-xs sm:text-sm"
           >
             <Code className="w-4 h-4" />
             <span>{t.buttons.toTypeScript}</span>
@@ -298,11 +339,11 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
         </div>
 
         {/* 状态栏与视图控制控制器 (Validation + View Mode + Font Zoom + Fullscreen) */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-2 border-t border-black/[0.06] dark:border-white/[0.08]">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-2 border-t border-black/[0.06] dark:border-white/[0.08] flex-shrink-0">
           {/* 左侧：语法状态条 */}
           {input.trim() ? (
             <div
-              className={`px-3.5 py-2 rounded-xl border flex items-center space-x-2.5 transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl border flex items-center space-x-2.5 transition-all ${
                 validation.isValid
                   ? 'bg-[#28CD41]/[0.08] dark:bg-[#28CD41]/[0.15] border-[#28CD41]/30 text-[#1D1D1F] dark:text-[#F5F5F7]'
                   : 'bg-[#FF3B30]/[0.08] dark:bg-[#FF453A]/[0.15] border-[#FF3B30]/30 text-[#D70015] dark:text-[#FF453A]'
@@ -405,21 +446,32 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
 
             {/* 全屏沉浸模式按钮 */}
             <button
-              onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.1] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition-all"
+              onClick={toggleFullscreen}
+              className={`p-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                isFullscreen
+                  ? 'bg-[#0071E3] text-white shadow-md'
+                  : 'bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.1] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]'
+              }`}
               title={isFullscreen ? t.views.exitFullscreen : t.views.fullscreen}
             >
-              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              {isFullscreen ? (
+                <>
+                  <Minimize2 className="w-4 h-4" />
+                  <span className="text-xs font-bold px-1 hidden sm:inline">{t.views.exitFullscreen} (ESC)</span>
+                </>
+              ) : (
+                <Maximize2 className="w-4 h-4" />
+              )}
             </button>
           </div>
         </div>
 
         {/* 双栏 / 全景 编辑器视图 */}
-        <div className={`grid gap-4 ${viewMode === 'split' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+        <div className={`grid gap-4 ${viewMode === 'split' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} ${isFullscreen ? 'flex-1 min-h-0' : ''}`}>
           {/* 左栏：输入区域 */}
           {(viewMode === 'split' || viewMode === 'inputOnly') && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between px-1">
+            <div className={`space-y-2 ${isFullscreen ? 'flex flex-col h-full min-h-0' : ''}`}>
+              <div className="flex items-center justify-between px-1 flex-shrink-0">
                 <label className="text-xs font-bold tracking-wider text-[#86868B] uppercase">
                   {t.inputLabel}
                 </label>
@@ -427,14 +479,16 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
                   {input.length} chars · {inputLines} lines
                 </span>
               </div>
-              <div className="relative">
+              <div className={`relative ${isFullscreen ? 'flex-1 min-h-0 flex flex-col' : ''}`}>
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={t.inputPlaceholder}
-                  rows={isFullscreen ? 28 : 20}
+                  rows={isFullscreen ? 30 : 20}
                   spellCheck={false}
-                  className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border transition-all focus:outline-none focus:ring-2 resize-y shadow-inner ${
+                  className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border transition-all focus:outline-none focus:ring-2 shadow-inner ${
+                    isFullscreen ? 'h-full min-h-0 flex-1 resize-none' : 'resize-y'
+                  } ${
                     validation.isValid || !input.trim()
                       ? 'border-black/[0.08] dark:border-white/[0.12] text-[#1D1D1F] dark:text-[#F5F5F7] focus:ring-[#0071E3]/40 focus:border-[#0071E3]'
                       : 'border-[#FF3B30]/40 text-[#FF3B30] dark:text-[#FF453A] focus:ring-[#FF3B30]/30 focus:border-[#FF3B30]'
@@ -446,8 +500,8 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
 
           {/* 右栏：处理结果 / 高亮语法输出区域 */}
           {(viewMode === 'split' || viewMode === 'outputOnly') && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between px-1">
+            <div className={`space-y-2 ${isFullscreen ? 'flex flex-col h-full min-h-0' : ''}`}>
+              <div className="flex items-center justify-between px-1 flex-shrink-0">
                 <label className="text-xs font-bold tracking-wider text-[#86868B] uppercase">
                   {t.outputLabel}
                 </label>
@@ -464,11 +518,11 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
                   </button>
                 </div>
               </div>
-              <div className="relative">
+              <div className={`relative ${isFullscreen ? 'flex-1 min-h-0 flex flex-col' : ''}`}>
                 {showHighlighted ? (
                   <div
                     className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] overflow-x-auto overflow-y-auto whitespace-pre selection:bg-[#0071E3]/20 shadow-inner ${
-                      isFullscreen ? 'min-h-[600px] max-h-[80vh]' : 'min-h-[460px] max-h-[600px]'
+                      isFullscreen ? 'h-full min-h-0 flex-1' : 'min-h-[460px] max-h-[600px]'
                     }`}
                     dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                   />
@@ -477,9 +531,11 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
                     value={output || input}
                     readOnly
                     placeholder={t.outputPlaceholder}
-                    rows={isFullscreen ? 28 : 20}
+                    rows={isFullscreen ? 30 : 20}
                     spellCheck={false}
-                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] text-[#0071E3] dark:text-[#2997FF] focus:outline-none resize-y selection:bg-[#0071E3]/20 shadow-inner`}
+                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] text-[#0071E3] dark:text-[#2997FF] focus:outline-none selection:bg-[#0071E3]/20 shadow-inner ${
+                      isFullscreen ? 'h-full min-h-0 flex-1 resize-none' : 'resize-y'
+                    }`}
                   />
                 )}
               </div>
@@ -488,8 +544,8 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
         </div>
       </div>
 
-      {/* [SEO & GEO 优化点 3] - JSON 规范与数据类型对照表 */}
-      {t.table && t.table.rows && (
+      {/* [SEO & GEO 优化点 3] - JSON 规范与数据类型对照表（非全屏下展示） */}
+      {!isFullscreen && t.table && t.table.rows && (
         <section className="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.12] rounded-3xl p-6 shadow-sm space-y-4">
           <div className="flex items-center space-x-2">
             <Table className="w-4 h-4 text-[#0071E3]" />
@@ -521,8 +577,8 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
         </section>
       )}
 
-      {/* [SEO & GEO 优化点 4] - 结构化技术 Q&A 问答对 */}
-      {t.faqs && t.faqs.length > 0 && (
+      {/* [SEO & GEO 优化点 4] - 结构化技术 Q&A 问答对（非全屏下展示） */}
+      {!isFullscreen && t.faqs && t.faqs.length > 0 && (
         <section className="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.12] rounded-3xl p-6 shadow-sm space-y-4">
           <div className="flex items-center space-x-2">
             <HelpCircle className="w-4 h-4 text-[#28CD41]" />
