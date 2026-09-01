@@ -484,9 +484,9 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={t.inputPlaceholder}
-                  rows={isFullscreen ? 30 : 20}
+                  rows={isFullscreen ? 30 : 22}
                   spellCheck={false}
-                  className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border transition-all focus:outline-none focus:ring-2 shadow-inner ${
+                  className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border transition-all focus:outline-none focus:ring-2 shadow-inner min-h-[500px] ${
                     isFullscreen ? 'h-full min-h-0 flex-1 resize-none' : 'resize-y'
                   } ${
                     validation.isValid || !input.trim()
@@ -521,8 +521,8 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
               <div className={`relative ${isFullscreen ? 'flex-1 min-h-0 flex flex-col' : ''}`}>
                 {showHighlighted ? (
                   <div
-                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] overflow-x-auto overflow-y-auto whitespace-pre selection:bg-[#0071E3]/20 shadow-inner ${
-                      isFullscreen ? 'h-full min-h-0 flex-1' : 'min-h-[460px] max-h-[600px]'
+                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] overflow-x-auto overflow-y-auto whitespace-pre selection:bg-[#0071E3]/20 shadow-inner min-h-[500px] ${
+                      isFullscreen ? 'h-full min-h-0 flex-1' : 'max-h-[720px]'
                     }`}
                     dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                   />
@@ -531,9 +531,9 @@ export const JsonProcessor: React.FC<JsonProcessorProps> = ({
                     value={output || input}
                     readOnly
                     placeholder={t.outputPlaceholder}
-                    rows={isFullscreen ? 30 : 20}
+                    rows={isFullscreen ? 30 : 22}
                     spellCheck={false}
-                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] text-[#0071E3] dark:text-[#2997FF] focus:outline-none selection:bg-[#0071E3]/20 shadow-inner ${
+                    className={`w-full p-5 font-mono ${fontSizeClass} rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.12] text-[#0071E3] dark:text-[#2997FF] focus:outline-none selection:bg-[#0071E3]/20 shadow-inner min-h-[500px] ${
                       isFullscreen ? 'h-full min-h-0 flex-1 resize-none' : 'resize-y'
                     }`}
                   />

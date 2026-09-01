@@ -228,7 +228,9 @@ export function App() {
       </header>
 
       {/* 主工作区 */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 space-y-6">
+      <main className={`flex-1 w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6 transition-all duration-300 ${
+        activeTool === 'json' ? 'max-w-7xl 2xl:max-w-[1720px]' : 'max-w-5xl'
+      }`}>
         {/* 工具组件渲染 */}
         {activeTool === 'case' && (
           <CaseConverter locale={locale} showToast={showToast} />
