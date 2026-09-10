@@ -16,6 +16,7 @@ import { GuidesSection } from './components/GuidesSection';
 import { HowToUse } from './components/HowToUse';
 import { UseCases } from './components/UseCases';
 import { FaqSection } from './components/FaqSection';
+import { CompliancePage, CompliancePageType } from './components/CompliancePage';
 import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode, BookOpen } from 'lucide-react';
 
 export function App() {
@@ -28,6 +29,17 @@ export function App() {
       if (path.includes('/json')) return 'json';
     }
     return 'case';
+  });
+
+  const [currentPage, setCurrentPage] = useState<'tools' | CompliancePageType>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('/about')) return 'about';
+      if (path.includes('/privacy')) return 'privacy';
+      if (path.includes('/terms')) return 'terms';
+      if (path.includes('/contact')) return 'contact';
+    }
+    return 'tools';
   });
 
   const [locale, setLocale] = useState<Locale>(() => {
@@ -43,13 +55,13 @@ export function App() {
 
   const [isDark, setIsDark] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'about' | null>(null);
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
 
   const t = translations[locale] || translations.en;
 
   // 路由同步切换函数
   const updateRoute = (newTool: ToolType, newLocale: Locale) => {
+    setCurrentPage('tools');
     setActiveTool(newTool);
     setLocale(newLocale);
 
@@ -74,6 +86,28 @@ export function App() {
     }
   };
 
+  const navigateToCompliance = (page: CompliancePageType, targetLocale: Locale = locale) => {
+    setCurrentPage(page);
+    setLocale(targetLocale);
+    if (typeof window !== 'undefined') {
+      const targetPath = targetLocale === 'en' ? `/${page}/` : `/${targetLocale}/${page}/`;
+      window.history.pushState({}, '', targetPath);
+      const titleMap: Record<CompliancePageType, string> = {
+        about: t.nav.aboutUs,
+        privacy: t.nav.privacyPolicy,
+        terms: t.nav.termsOfService,
+        contact: t.nav.contactUs,
+      };
+      document.title = `${titleMap[page]} - DevText`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const navigateToTools = (targetTool: ToolType = 'case', targetLocale: Locale = locale) => {
+    setCurrentPage('tools');
+    updateRoute(targetTool, targetLocale);
+  };
+
   // 监听暗黑模式
   useEffect(() => {
     if (isDark) {
@@ -82,6 +116,34 @@ export function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [isDark]);
+
+  // 浏览器前进/后退 popstate 事件监听
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('/about')) setCurrentPage('about');
+      else if (path.includes('/privacy')) setCurrentPage('privacy');
+      else if (path.includes('/terms')) setCurrentPage('terms');
+      else if (path.includes('/contact')) setCurrentPage('contact');
+      else {
+        setCurrentPage('tools');
+        if (path.includes('/cron')) setActiveTool('cron');
+        else if (path.includes('/json')) setActiveTool('json');
+        else setActiveTool('case');
+      }
+
+      const pathClean = window.location.pathname.replace(/^\/|\/$/g, '');
+      const firstSegment = pathClean.split('/')[0];
+      if (firstSegment && translations[firstSegment as Locale]) {
+        setLocale(firstSegment as Locale);
+      } else {
+        setLocale('en');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // 首次载入及路由/语言变更时，强制同步 HTML lang 与 Document Title (修复首屏标题英文问题)
   useEffect(() => {
@@ -96,11 +158,15 @@ export function App() {
     if (typeof document !== 'undefined') {
       document.documentElement.lang = langMap[locale] || 'en';
       let pageTitle = t.case.title;
-      if (activeTool === 'cron') pageTitle = t.cron.title;
-      if (activeTool === 'json') pageTitle = t.json.title;
+      if (currentPage === 'about') pageTitle = t.nav.aboutUs;
+      else if (currentPage === 'privacy') pageTitle = t.nav.privacyPolicy;
+      else if (currentPage === 'terms') pageTitle = t.nav.termsOfService;
+      else if (currentPage === 'contact') pageTitle = t.nav.contactUs;
+      else if (activeTool === 'cron') pageTitle = t.cron.title;
+      else if (activeTool === 'json') pageTitle = t.json.title;
       document.title = `${pageTitle} - DevText`;
     }
-  }, [locale, activeTool, t]);
+  }, [locale, activeTool, currentPage, t]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -123,7 +189,7 @@ export function App() {
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo 与主站名称 */}
           <div
-            onClick={() => updateRoute('case', locale)}
+            onClick={() => navigateToTools('case', locale)}
             className="flex items-center space-x-3 cursor-pointer select-none"
           >
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0071E3] to-[#47A1FF] flex items-center justify-center text-white shadow-sm">
@@ -139,7 +205,7 @@ export function App() {
             <button
               onClick={() => updateRoute('case', locale)}
               className={`whitespace-nowrap flex items-center space-x-1.5 px-3.5 py-1.5 text-sm font-semibold rounded-full transition-all ${
-                activeTool === 'case'
+                activeTool === 'case' && currentPage === 'tools'
                   ? 'bg-white dark:bg-[#2C2C2E] text-[#0071E3] dark:text-[#2997FF] shadow-sm'
                   : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]'
               }`}
@@ -150,7 +216,7 @@ export function App() {
             <button
               onClick={() => updateRoute('cron', locale)}
               className={`whitespace-nowrap flex items-center space-x-1.5 px-3.5 py-1.5 text-sm font-semibold rounded-full transition-all ${
-                activeTool === 'cron'
+                activeTool === 'cron' && currentPage === 'tools'
                   ? 'bg-white dark:bg-[#2C2C2E] text-[#0071E3] dark:text-[#2997FF] shadow-sm'
                   : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]'
               }`}
@@ -161,7 +227,7 @@ export function App() {
             <button
               onClick={() => updateRoute('json', locale)}
               className={`whitespace-nowrap flex items-center space-x-1.5 px-3.5 py-1.5 text-sm font-semibold rounded-full transition-all ${
-                activeTool === 'json'
+                activeTool === 'json' && currentPage === 'tools'
                   ? 'bg-white dark:bg-[#2C2C2E] text-[#0071E3] dark:text-[#2997FF] shadow-sm'
                   : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]'
               }`}
@@ -173,30 +239,35 @@ export function App() {
             <div className="h-4 w-px bg-black/10 dark:bg-white/10 mx-1" />
             <a
               href="#how-to"
+              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
               className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
               {t.nav.howToTab}
             </a>
             <a
               href="#use-cases"
+              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
               className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
               {t.nav.useCasesTab}
             </a>
             <a
               href="#cheatsheet"
+              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
               className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
               {t.nav.cheatsheetTab}
             </a>
             <a
               href="#guides"
+              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
               className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
               {t.nav.guidesTab}
             </a>
             <a
               href="#faq"
+              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
               className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
               {t.nav.faqTab}
@@ -210,7 +281,14 @@ export function App() {
               <Globe className="w-4 h-4 text-[#86868B] absolute left-3 pointer-events-none" />
               <select
                 value={locale}
-                onChange={(e) => updateRoute(activeTool, e.target.value as Locale)}
+                onChange={(e) => {
+                  const newLoc = e.target.value as Locale;
+                  if (currentPage !== 'tools') {
+                    navigateToCompliance(currentPage, newLoc);
+                  } else {
+                    updateRoute(activeTool, newLoc);
+                  }
+                }}
                 aria-label="Language selection"
                 className="pl-8 pr-7 py-2 text-sm font-medium rounded-full bg-black/[0.05] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.15] border-none focus:outline-none focus:ring-1 focus:ring-[#0071E3] cursor-pointer appearance-none transition-colors"
               >
@@ -304,106 +382,115 @@ export function App() {
 
       {/* 主工作区 */}
       <main className={`flex-1 w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6 transition-all duration-300 ${
-        activeTool === 'json' ? 'max-w-7xl 2xl:max-w-[1720px]' : 'max-w-5xl'
+        activeTool === 'json' && currentPage === 'tools' ? 'max-w-7xl 2xl:max-w-[1720px]' : 'max-w-5xl'
       }`}>
-        {/* 工具组件渲染 */}
-        <div id="tools">
-          {activeTool === 'case' && (
-            <CaseConverter locale={locale} showToast={showToast} />
-          )}
-          {activeTool === 'cron' && (
-            <CronVisualizer locale={locale} showToast={showToast} />
-          )}
-          {activeTool === 'json' && (
-            <JsonProcessor locale={locale} showToast={showToast} />
-          )}
-        </div>
+        {currentPage !== 'tools' ? (
+          <CompliancePage
+            page={currentPage}
+            locale={locale}
+            onBackToTools={() => navigateToTools('case', locale)}
+          />
+        ) : (
+          <>
+            {/* 工具组件渲染 */}
+            <div id="tools">
+              {activeTool === 'case' && (
+                <CaseConverter locale={locale} showToast={showToast} />
+              )}
+              {activeTool === 'cron' && (
+                <CronVisualizer locale={locale} showToast={showToast} />
+              )}
+              {activeTool === 'json' && (
+                <JsonProcessor locale={locale} showToast={showToast} />
+              )}
+            </div>
 
-        {/* [SEO & GEO 优化点 4] - 底部关联工具互链卡片 (Cross-Tool Hub Linking)
-            向 Google 搜索引擎与 AI 爬虫建立页面之间的紧密上下文拓扑结构 */}
-        <div className="p-4 rounded-2xl bg-white/60 dark:bg-[#1C1C1E]/60 border border-black/[0.06] dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center space-x-3 text-xs text-[#86868B]">
-            <span className="flex items-center text-[#28CD41] font-semibold">
-              <ShieldCheck className="w-4 h-4 mr-1" />
-              {t.nav.clientSafe}
-            </span>
-            <span>•</span>
-            <span className="flex items-center text-[#0071E3] font-semibold">
-              <Zap className="w-4 h-4 mr-1" />
-              {t.nav.zeroLatency}
-            </span>
-          </div>
+            {/* [SEO & GEO 优化点 4] - 底部关联工具互链卡片 (Cross-Tool Hub Linking) */}
+            <div className="p-4 rounded-2xl bg-white/60 dark:bg-[#1C1C1E]/60 border border-black/[0.06] dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center space-x-3 text-xs text-[#86868B]">
+                <span className="flex items-center text-[#28CD41] font-semibold">
+                  <ShieldCheck className="w-4 h-4 mr-1" />
+                  {t.nav.clientSafe}
+                </span>
+                <span>•</span>
+                <span className="flex items-center text-[#0071E3] font-semibold">
+                  <Zap className="w-4 h-4 mr-1" />
+                  {t.nav.zeroLatency}
+                </span>
+              </div>
 
-          <div className="flex items-center space-x-2 text-xs flex-wrap gap-1.5">
-            <span className="text-[#86868B]">
-              {t.nav.switchTool}
-            </span>
-            <button
-              onClick={() => updateRoute('case', locale)}
-              className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
-                activeTool === 'case'
-                  ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
-                  : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
-              }`}
-            >
-              🔤 {t.nav.caseConverter}
-            </button>
-            <button
-              onClick={() => updateRoute('cron', locale)}
-              className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
-                activeTool === 'cron'
-                  ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
-                  : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
-              }`}
-            >
-              ⏱️ {t.nav.cronVisualizer}
-            </button>
-            <button
-              onClick={() => updateRoute('json', locale)}
-              className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
-                activeTool === 'json'
-                  ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
-                  : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
-              }`}
-            >
-              ⚡ {t.nav.jsonProcessor}
-            </button>
-          </div>
-        </div>
+              <div className="flex items-center space-x-2 text-xs flex-wrap gap-1.5">
+                <span className="text-[#86868B]">
+                  {t.nav.switchTool}
+                </span>
+                <button
+                  onClick={() => updateRoute('case', locale)}
+                  className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
+                    activeTool === 'case'
+                      ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
+                      : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
+                  }`}
+                >
+                  🔤 {t.nav.caseConverter}
+                </button>
+                <button
+                  onClick={() => updateRoute('cron', locale)}
+                  className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
+                    activeTool === 'cron'
+                      ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
+                      : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
+                  }`}
+                >
+                  ⏱️ {t.nav.cronVisualizer}
+                </button>
+                <button
+                  onClick={() => updateRoute('json', locale)}
+                  className={`px-3 py-1 font-semibold rounded-lg transition-colors ${
+                    activeTool === 'json'
+                      ? 'bg-black/[0.06] dark:bg-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7]'
+                      : 'bg-[#0071E3]/10 text-[#0071E3] hover:bg-[#0071E3]/20'
+                  }`}
+                >
+                  ⚡ {t.nav.jsonProcessor}
+                </button>
+              </div>
+            </div>
 
-        {/* 1. 深度操作指南 (How-To 3-step 指南) */}
-        <HowToUse locale={locale} />
+            {/* 1. 深度操作指南 (How-To 3-step 指南) */}
+            <HowToUse locale={locale} />
 
-        {/* 2. 真实使用场景与案例分析 (Use Cases) */}
-        <UseCases
-          locale={locale}
-          onTryExample={(sampleText) => {
-            updateRoute('case', locale);
-            navigator.clipboard.writeText(sampleText);
-            showToast(locale === 'zh' ? `已复制示例 [${sampleText}] 并切换至工具！` : `Copied [${sampleText}] & switched to tool!`);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
+            {/* 2. 真实使用场景与案例分析 (Use Cases) */}
+            <UseCases
+              locale={locale}
+              onTryExample={(sampleText) => {
+                updateRoute('case', locale);
+                navigator.clipboard.writeText(sampleText);
+                showToast(locale === 'zh' ? `已复制示例 [${sampleText}] 并切换至工具！` : `Copied [${sampleText}] & switched to tool!`);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
 
-        {/* 3. 交互式开发语法与命名速查手册 */}
-        <Cheatsheet locale={locale} onTryExample={handleTryExample} />
+            {/* 3. 交互式开发语法与命名速查手册 */}
+            <Cheatsheet locale={locale} onTryExample={handleTryExample} />
 
-        {/* 4. 深度技术指南专区 (高价值发布商内容) */}
-        <GuidesSection
-          locale={locale}
-          activeArticleId={activeArticleId}
-          onSelectArticle={(id) => {
-            setActiveArticleId(id);
-            if (id) {
-              setTimeout(() => {
-                document.getElementById('article-reader')?.scrollIntoView({ behavior: 'smooth' });
-              }, 60);
-            }
-          }}
-        />
+            {/* 4. 深度技术指南专区 (高价值发布商内容) */}
+            <GuidesSection
+              locale={locale}
+              activeArticleId={activeArticleId}
+              onSelectArticle={(id) => {
+                setActiveArticleId(id);
+                if (id) {
+                  setTimeout(() => {
+                    document.getElementById('article-reader')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 60);
+                }
+              }}
+            />
 
-        {/* 5. 常见问题解答 (FAQ 折叠面板) */}
-        <FaqSection locale={locale} />
+            {/* 5. 常见问题解答 (FAQ 折叠面板) */}
+            <FaqSection locale={locale} />
+          </>
+        )}
       </main>
 
       {/* 底部 Apple 极简页脚 */}
@@ -415,356 +502,60 @@ export function App() {
             <span>{t.nav.footerSubtitle}</span>
           </div>
           <div className="flex items-center space-x-3 text-xs flex-wrap gap-y-2">
-            <a href="#how-to" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a href="#how-to" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.howToTab}
             </a>
             <span>•</span>
-            <a href="#use-cases" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a href="#use-cases" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.useCasesTab}
             </a>
             <span>•</span>
-            <a href="#cheatsheet" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a href="#cheatsheet" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.cheatsheetTab}
             </a>
             <span>•</span>
-            <a href="#guides" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a href="#guides" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.guidesTab}
             </a>
             <span>•</span>
-            <a href="#faq" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a href="#faq" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.faqTab}
             </a>
             <span>•</span>
-            <button
-              onClick={() => setActiveModal('privacy')}
-              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
+            <a
+              href={locale === 'en' ? '/about/' : `/${locale}/about/`}
+              onClick={(e) => { e.preventDefault(); navigateToCompliance('about'); }}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors"
+            >
+              {t.nav.aboutUs}
+            </a>
+            <span>•</span>
+            <a
+              href={locale === 'en' ? '/privacy/' : `/${locale}/privacy/`}
+              onClick={(e) => { e.preventDefault(); navigateToCompliance('privacy'); }}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors"
             >
               {t.nav.privacyPolicy}
-            </button>
+            </a>
             <span>•</span>
-            <button
-              onClick={() => setActiveModal('terms')}
-              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
+            <a
+              href={locale === 'en' ? '/terms/' : `/${locale}/terms/`}
+              onClick={(e) => { e.preventDefault(); navigateToCompliance('terms'); }}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors"
             >
               {t.nav.termsOfService}
-            </button>
+            </a>
             <span>•</span>
-            <button
-              onClick={() => setActiveModal('about')}
-              className="hover:underline text-[#86868B] hover:text-[#0071E3]"
+            <a
+              href={locale === 'en' ? '/contact/' : `/${locale}/contact/`}
+              onClick={(e) => { e.preventDefault(); navigateToCompliance('contact'); }}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors"
             >
-              {t.nav.aboutContact}
-            </button>
+              {t.nav.contactUs}
+            </a>
           </div>
         </div>
       </footer>
-
-      {/* Compliance Policy & About Modal */}
-      {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white dark:bg-[#1C1C1E] max-w-2xl w-full rounded-2xl p-6 shadow-2xl border border-black/10 dark:border-white/10 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10 mb-4">
-              <h3 className="text-lg font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">
-                {activeModal === 'privacy' && t.nav.privacyPolicy}
-                {activeModal === 'terms' && t.nav.termsOfService}
-                {activeModal === 'about' && t.nav.aboutContact}
-              </h3>
-              <button
-                onClick={() => setActiveModal(null)}
-                className="px-3 py-1 text-xs font-semibold rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[#1D1D1F] dark:text-[#F5F5F7] transition-all"
-              >
-                {locale === 'zh' ? '关闭 ✕' : locale === 'ja' ? '閉じる ✕' : locale === 'es' ? 'Cerrar ✕' : locale === 'de' ? 'Schließen ✕' : locale === 'fr' ? 'Fermer ✕' : 'Close ✕'}
-              </button>
-            </div>
-
-            <div className="text-xs text-[#48484A] dark:text-[#AEAEB2] space-y-4 leading-relaxed">
-              {activeModal === 'privacy' && (
-                <>
-                  {locale === 'zh' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">最后更新日期：2026 年 8 月</p>
-                      <p>
-                        欢迎访问 <strong>DevText Toolkit (devtoolai.xyz)</strong>。我们高度重视全球开发者的隐私与数据安全。本隐私政策阐明了我们在您使用本站服务时所遵循的隐私规范与数据处理机制。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 100% 浏览器客户端隐私安全保障</h4>
-                      <p>
-                        我们提供的字母大小写转换、Cron 表达式解析与模拟、JSON 格式化与 TypeScript 接口生成等所有核心功能，<strong>全部 100% 在您的本地浏览器内存中计算完成</strong>。您的任何代码、敏感参数、数据片段或隐私文本均绝不会被上传或存储至我们的服务器。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 服务器日志与分析</h4>
-                      <p>
-                        devtoolai.xyz 遵循标准的 Serverless 日志与统计程序。收集的信息包括匿名 IP 地址、浏览器类型、时间戳及访问页面，仅用于安全防护与性能诊断。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookie 与第三方广告政策</h4>
-                      <p>
-                        本站可能使用 Cookie 记录用户的主题偏好。Google 作为第三方广告供应商，使用 DART Cookie 根据用户对本站及互联网其他站点的访问提供广告服务。用户可访问 <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">Google 广告隐私政策</a> 自行管理或停用 Cookie。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. GDPR 与 CCPA 合规保障</h4>
-                      <p>
-                        我们充分尊重您在 GDPR 和 CCPA 框架下的合法数据权益。您可随时通过联系我们行使相关权利。
-                      </p>
-                    </>
-                  ) : locale === 'ja' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">最終更新日：2026年8月</p>
-                      <p>
-                        <strong>DevText Toolkit (devtoolai.xyz)</strong> では、利用者の皆様のプライバシー保護を最優先事項としております。本プライバシーポリシーでは、当サイトで記録される情報の種類とその利用方法について説明します。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 完全なクライアント側ローカル実行とデータ保護</h4>
-                      <p>
-                        当ツールのすべてのテキスト変換、Cron解析、JSON/TypeScript生成は、<strong>100% お使いのブラウザ内部でローカルに実行されます</strong>。入力されたコードや機密データが外部サーバーに送信・保存されることは一切ありません。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. ログファイルおよびアクセス解析</h4>
-                      <p>
-                        devtoolai.xyz はサーバーレス標準の解析プロトコルに従います。収集される情報にはIPアドレス、ブラウザの種類、アクセス日時が含まれ、不正アクセスの防御とパフォーマンス診断にのみ使用されます。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Cookie および Google 広告ポリシー</h4>
-                      <p>
-                        当サイトでは利便性向上のため Cookie を使用する場合があります。Google などの第三者配信事業者は Cookie を使用して広告を配信します。詳細および無効化については Google の <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">広告ポリシー</a> をご確認ください。
-                      </p>
-                    </>
-                  ) : locale === 'es' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Última actualización: Agosto de 2026</p>
-                      <p>
-                        En <strong>DevText Toolkit (devtoolai.xyz)</strong>, accesible desde https://www.devtoolai.xyz, una de nuestras principales prioridades es la privacidad de nuestros visitantes.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Seguridad 100% en el Navegador</h4>
-                      <p>
-                        Todas las conversiones de texto, análisis de expresiones Cron y generación de interfaces TypeScript se calculan <strong>100% localmente en su navegador web</strong>. Ningún dato se envía ni se almacena en nuestros servidores.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies y Publicidad de Google</h4>
-                      <p>
-                        Google, como proveedor externo, utiliza cookies DART para mostrar anuncios a los visitantes. Puede consultar la política de Google en: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
-                      </p>
-                    </>
-                  ) : locale === 'de' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Stand: August 2026</p>
-                      <p>
-                        Der Schutz Ihrer Daten bei <strong>DevText Toolkit (devtoolai.xyz)</strong> hat für uns höchste Priorität.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 100% Lokale Browser-Sicherheit</h4>
-                      <p>
-                        Alle Textkonvertierungen, Cron-Berechnungen und TypeScript-Generierungen werden <strong>vollständig lokal im Speicher Ihres Browsers</strong> ausgeführt. Es werden keinerlei Daten an Server übertragen.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies & Google-Werberichtlinien</h4>
-                      <p>
-                        Google verwendet als Drittanbieter DART-Cookies zur Schaltung von Werbung. Weitere Informationen finden Sie unter: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
-                      </p>
-                    </>
-                  ) : locale === 'fr' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Dernière mise à jour : Août 2026</p>
-                      <p>
-                        Chez <strong>DevText Toolkit (devtoolai.xyz)</strong>, la confidentialité de nos visiteurs est essentielle.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Sécurité 100% Locale dans le Navigateur</h4>
-                      <p>
-                        Toutes les conversions de texte, validations Cron et interfaces TypeScript sont exécutées <strong>100% localement dans votre navigateur</strong>. Aucune donnée n'est transmise à nos serveurs.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Cookies et Publicités Google</h4>
-                      <p>
-                        Google utilise des cookies DART pour diffuser des annonces. Consultez la politique Google : <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Last Updated: August 2026</p>
-                      <p>
-                        At <strong>DevText Toolkit (devtoolai.xyz)</strong>, accessible from https://www.devtoolai.xyz, one of our main priorities is the privacy of our visitors. This Privacy Policy document outlines the types of information collected and how we protect your data.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Client-Side Data Security (100% In-Browser)</h4>
-                      <p>
-                        All text conversions, Cron parsing, and JSON TypeScript interfaces are computed <strong>100% locally within your client web browser</strong>. No code, text snippets, payloads, or developer inputs are ever transmitted to or stored on our servers.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Log Files & Analytics</h4>
-                      <p>
-                        devtoolai.xyz follows standard serverless analytics procedures. The information collected includes IP addresses, browser types, timestamps, and referring pages strictly for security diagnostics.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">3. Google DART Cookie & Third-Party Advertising</h4>
-                      <p>
-                        Google, as a third-party vendor, uses DART cookies to serve ads to our site visitors. Visitors may opt out of the use of DART cookies by visiting the Google ad network Privacy Policy at: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className="text-[#0071E3] underline">https://policies.google.com/technologies/ads</a>.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">4. GDPR & CCPA Compliance</h4>
-                      <p>
-                        We fully respect your data protection rights under GDPR and CCPA. Contact us anytime to exercise these rights.
-                      </p>
-                    </>
-                  )}
-                </>
-              )}
-
-              {activeModal === 'terms' && (
-                <>
-                  {locale === 'zh' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">服务条款与使用协议</p>
-                      <p>
-                        访问或使用 https://www.devtoolai.xyz 即表示您同意遵守本服务条款以及所有适用的法律法规。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 免费授权与使用范围</h4>
-                      <p>
-                        DevText Toolkit 免费授权所有个人、企业及开源开发者用于日常开发、商业项目及生产环境中的文本格式化与代码生成。由本工具生成的所有代码与结果不受任何版权约束。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 免责声明</h4>
-                      <p>
-                        本站所有工具均按“现状”提供，不包含任何明示或暗示的保证。
-                      </p>
-                    </>
-                  ) : locale === 'ja' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">利用規約</p>
-                      <p>
-                        当ウェブサイト（https://www.devtoolai.xyz）をご利用いただくことで、本利用規約および関連法令に同意いただいたものとみなします。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. 無料ライセンスおよび商用利用</h4>
-                      <p>
-                        DevText Toolkit は、個人利用・商用利用・オープンソース開発を問わず完全無料でご利用いただけます。当ツールによって変換・生成されたコードおよび文字列には著作権上の制限は一切ありません。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. 免責事項</h4>
-                      <p>
-                        当ツールの提供する変換機能および計算結果は現状有姿で提供されるものであり、明示的または黙示的な保証を伴うものではありません。
-                      </p>
-                    </>
-                  ) : locale === 'es' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Términos y Condiciones</p>
-                      <p>
-                        Al acceder a https://www.devtoolai.xyz, acepta cumplir con estos Términos y Condiciones de uso.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Licencia y Uso Gratuito</h4>
-                      <p>
-                        Se concede permiso para utilizar DevText Toolkit libremente para proyectos personales, comerciales y empresariales.
-                      </p>
-                    </>
-                  ) : locale === 'de' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Nutzungsbedingungen</p>
-                      <p>
-                        Mit dem Zugriff auf https://www.devtoolai.xyz stimmen Sie diesen Nutzungsbedingungen zu.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Lizenz & Kommerzielle Nutzung</h4>
-                      <p>
-                        DevText Toolkit darf für persönliche und kommerzielle Softwareprojekte uneingeschränkt und kostenfrei genutzt werden.
-                      </p>
-                    </>
-                  ) : locale === 'fr' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Conditions d'Utilisation</p>
-                      <p>
-                        En accédant à https://www.devtoolai.xyz, vous acceptez d'être lié par les présentes conditions.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. Licence et Utilisation</h4>
-                      <p>
-                        DevText Toolkit est gratuit pour un usage personnel et commercial dans le développement d'applications.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Terms and Conditions</p>
-                      <p>
-                        By accessing this website at https://www.devtoolai.xyz, you agree to be bound by these Terms and Conditions of Use and all applicable laws.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">1. License & Commercial Use</h4>
-                      <p>
-                        Permission is granted to freely use DevText Toolkit for personal, commercial, and enterprise developer utilities. All generated code and converted strings are free from licensing restrictions.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">2. Disclaimer</h4>
-                      <p>
-                        The developer tools and utilities on devtoolai.xyz are provided on an "as is" basis without warranties of any kind.
-                      </p>
-                    </>
-                  )}
-                </>
-              )}
-
-              {activeModal === 'about' && (
-                <>
-                  {locale === 'zh' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">关于 DevText Studio</p>
-                      <p>
-                        <strong>DevText Studio</strong> 是由独立工程师发起的高性能极客工具实验室，致力于为全球开发者打造极致纯粹、100% 浏览器本地运行、零延迟、零数据泄露的现代开发者工具箱。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">官方联系方式</h4>
-                      <p>
-                        如果您有任何功能建议、Bug 反馈或商业合作需求，欢迎随时与我们联系：
-                      </p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 官方支持邮箱：360240492@qq.com
-                      </p>
-                    </>
-                  ) : locale === 'ja' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">DevText Studio について</p>
-                      <p>
-                        <strong>DevText Studio</strong> は、世界中のエンジニアに向けて、100% ブラウザ内ローカル処理・ゼロ遅延・高セキュリティな開発者向けユーティリティ（ケース変換、Cron式ビジュアライザー、JSON/TypeScript生成）を提供するオープンエンジニアリングラボです。
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">お問い合わせ・サポート</h4>
-                      <p>
-                        機能のご要望、不具合の報告、またはビジネスに関するお問い合わせは、下記公式サポート窓口までお気軽にご連絡ください：
-                      </p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 公式サポートメール：360240492@qq.com
-                      </p>
-                    </>
-                  ) : locale === 'es' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Acerca de DevText Studio</p>
-                      <p>
-                        <strong>DevText Studio</strong> es un laboratorio de ingeniería que ofrece herramientas de alta velocidad, 100% locales en el navegador y con cero latencia para desarrolladores globales.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contacto</h4>
-                      <p>Para consultas, sugerencias o soporte:</p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 Correo oficial: 360240492@qq.com
-                      </p>
-                    </>
-                  ) : locale === 'de' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">Über DevText Studio</p>
-                      <p>
-                        <strong>DevText Studio</strong> entwickelt datenschutzorientierte, ultraschnelle Entwickler-Tools, die vollständig lokal im Webbrowser ausgeführt werden.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Kontakt</h4>
-                      <p>Bei Fragen, Feedback oder geschäftlichen Anfragen:</p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 Offizielle Support-E-Mail: 360240492@qq.com
-                      </p>
-                    </>
-                  ) : locale === 'fr' ? (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">À propos de DevText Studio</p>
-                      <p>
-                        <strong>DevText Studio</strong> est un laboratoire d'ingénierie fournissant des utilitaires haute performance, sécurisés et 100% exécutés dans le navigateur pour les développeurs.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contactez-nous</h4>
-                      <p>Pour toute question ou suggestion :</p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 Email de support officiel : 360240492@qq.com
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="font-semibold text-sm text-[#1D1D1F] dark:text-[#F5F5F7]">About DevText Studio</p>
-                      <p>
-                        <strong>DevText Studio</strong> is an independent open engineering lab dedicated to providing fast, privacy-first, zero-latency developer utilities (Case Converters, Cron Visualizers, JSON Formatters) for global engineers.
-                      </p>
-                      <h4 className="font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">Contact Us</h4>
-                      <p>
-                        If you have questions, bug reports, feature suggestions, or business inquiries, please reach out directly:
-                      </p>
-                      <p className="p-3 bg-black/5 dark:bg-white/5 rounded-xl text-[#0071E3] font-mono">
-                        📧 Official Support Email: 360240492@qq.com
-                      </p>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 浮动 Toast 提示 */}
       {toastMessage && (

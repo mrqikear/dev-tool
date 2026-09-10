@@ -166,23 +166,24 @@ const locales = [
   },
 ];
 
-function buildHreflangTags(tool) {
-  const getToolUrl = (localeCode) => {
+function buildHreflangTags(target) {
+  const getTargetUrl = (localeCode) => {
     let sub = '';
-    if (tool === 'cron') sub = 'cron/';
-    if (tool === 'json') sub = 'json/';
+    if (target === 'cron') sub = 'cron/';
+    else if (target === 'json') sub = 'json/';
+    else if (['about', 'privacy', 'terms', 'contact'].includes(target)) sub = `${target}/`;
     if (localeCode === 'en') return `${BASE_DOMAIN}/${sub}`;
     return `${BASE_DOMAIN}/${localeCode}/${sub}`;
   };
 
   return `
-    <link rel="alternate" hreflang="x-default" href="${getToolUrl('en')}" />
-    <link rel="alternate" hreflang="en" href="${getToolUrl('en')}" />
-    <link rel="alternate" hreflang="es" href="${getToolUrl('es')}" />
-    <link rel="alternate" hreflang="ja" href="${getToolUrl('ja')}" />
-    <link rel="alternate" hreflang="de" href="${getToolUrl('de')}" />
-    <link rel="alternate" hreflang="fr" href="${getToolUrl('fr')}" />
-    <link rel="alternate" hreflang="zh" href="${getToolUrl('zh')}" />`;
+    <link rel="alternate" hreflang="x-default" href="${getTargetUrl('en')}" />
+    <link rel="alternate" hreflang="en" href="${getTargetUrl('en')}" />
+    <link rel="alternate" hreflang="es" href="${getTargetUrl('es')}" />
+    <link rel="alternate" hreflang="ja" href="${getTargetUrl('ja')}" />
+    <link rel="alternate" hreflang="de" href="${getTargetUrl('de')}" />
+    <link rel="alternate" hreflang="fr" href="${getTargetUrl('fr')}" />
+    <link rel="alternate" hreflang="zh" href="${getTargetUrl('zh')}" />`;
 }
 
 import { 
@@ -193,6 +194,7 @@ import {
   ssgUseCasesByLocale,
   ssgFaqByLocale
 } from './ssg-data.js';
+import { ssgComplianceData } from './ssg-compliance-data.js';
 
 function buildFaqSchema(localeCode = 'en') {
   const faq = ssgFaqByLocale[localeCode] || ssgFaqByLocale.en;
@@ -338,7 +340,100 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
       </section>
 
       <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.08); font-size: 0.8rem; color: #86868B; text-align: center;">
-        <p>${meta.footerNotice}</p>
+        <p style="margin-bottom: 0.75rem;">${meta.footerNotice}</p>
+        <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem;">
+          <a href="${localeCode === 'en' ? '/about/' : `/${localeCode}/about/`}" style="color: #86868B; text-decoration: underline;">${complianceNavByLocale[localeCode]?.about || complianceNavByLocale.en.about}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/privacy/' : `/${localeCode}/privacy/`}" style="color: #86868B; text-decoration: underline;">${complianceNavByLocale[localeCode]?.privacy || complianceNavByLocale.en.privacy}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/terms/' : `/${localeCode}/terms/`}" style="color: #86868B; text-decoration: underline;">${complianceNavByLocale[localeCode]?.terms || complianceNavByLocale.en.terms}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/contact/' : `/${localeCode}/contact/`}" style="color: #86868B; text-decoration: underline;">${complianceNavByLocale[localeCode]?.contact || complianceNavByLocale.en.contact}</a>
+        </div>
+      </footer>
+    </div>
+  `;
+}
+
+const complianceNavByLocale = {
+  en: { about: 'About Us', privacy: 'Privacy Policy', terms: 'Terms of Service', contact: 'Contact Us', home: 'Home', back: 'Back to Developer Utilities', officialEmail: 'Official Contact Email', openSource: 'Open Source Code & Issues', repoLink: 'View GitHub Repository' },
+  zh: { about: '关于我们', privacy: '隐私政策', terms: '服务条款', contact: '联系我们', home: '首页', back: '返回开发者工具箱', officialEmail: '官方联系邮箱', openSource: '开源代码与反馈渠道', repoLink: '访问 GitHub 仓库' },
+  es: { about: 'Sobre Nosotros', privacy: 'Política de Privacidad', terms: 'Términos de Servicio', contact: 'Contacto', home: 'Inicio', back: 'Volver a Herramientas', officialEmail: 'Correo Oficial de Contacto', openSource: 'Código Abierto y Soporte', repoLink: 'Ver Repositorio GitHub' },
+  ja: { about: '会社・開発者概要', privacy: 'プライバシーポリシー', terms: '利用規約', contact: 'お問い合わせ', home: 'ホーム', back: 'ツール一覧に戻る', officialEmail: '公式連絡先メール', openSource: 'オープンソース＆課題管理', repoLink: 'GitHub リポジトリを見る' },
+  de: { about: 'Über Uns', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', contact: 'Kontakt', home: 'Startseite', back: 'Zurück zu den Tools', officialEmail: 'Offizielle E-Mail', openSource: 'Open Source & Feedback', repoLink: 'GitHub-Repository ansehen' },
+  fr: { about: 'À Propos', privacy: 'Politique de Confidentialité', terms: 'Conditions d\'Utilisation', contact: 'Contact', home: 'Accueil', back: 'Retour aux outils', officialEmail: 'Email Officiel de Contact', openSource: 'Code Open Source & Support', repoLink: 'Voir le dépôt GitHub' },
+};
+
+// 为爬虫与 AdSense 审核预渲染完整合规页面 (关于我们、隐私政策、服务条款、联系我们)
+function buildCompliancePrerenderHtml(pageType, localeCode = 'en') {
+  const pageData = ssgComplianceData[localeCode]?.[pageType] || ssgComplianceData.en[pageType];
+  const ui = complianceNavByLocale[localeCode] || complianceNavByLocale.en;
+  const homeHref = localeCode === 'en' ? '/' : `/${localeCode}/`;
+
+  const sectionsHtml = pageData.sections.map(sec => `
+    <section style="margin-bottom: 2rem;">
+      <h2 style="font-size: 1.25rem; font-weight: 700; color: #1d1d1f; margin-bottom: 0.75rem;">${sec.title}</h2>
+      ${sec.paragraphs.map(p => `<p style="font-size: 0.95rem; color: #333336; line-height: 1.65; margin-bottom: 0.75rem;">${p}</p>`).join('')}
+    </section>
+  `).join('');
+
+  let contactBoxHtml = '';
+  if (pageType === 'contact' && pageData.contactEmail) {
+    contactBoxHtml = `
+      <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+        <div style="background: #f5f5f7; border-radius: 1rem; padding: 1.25rem;">
+          <span style="font-size: 0.75rem; font-weight: 600; color: #86868b; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">${ui.officialEmail}</span>
+          <a href="mailto:${pageData.contactEmail}" style="font-size: 1.05rem; font-family: monospace; font-weight: 700; color: #0071e3; text-decoration: none;">${pageData.contactEmail}</a>
+        </div>
+        ${pageData.githubUrl ? `
+        <div style="background: #f5f5f7; border-radius: 1rem; padding: 1.25rem;">
+          <span style="font-size: 0.75rem; font-weight: 600; color: #86868b; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">${ui.openSource}</span>
+          <a href="${pageData.githubUrl}" target="_blank" rel="noreferrer" style="display: inline-block; margin-top: 0.25rem; font-size: 0.9rem; font-weight: 600; color: #1d1d1f; text-decoration: underline;">${ui.repoLink} ↗</a>
+        </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  return `
+    <div style="max-width: 896px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, -apple-system, sans-serif; color: #1d1d1f;">
+      <nav style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 0.85rem; color: #86868b;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <a href="${homeHref}" style="color: #86868b; text-decoration: none;">${ui.home}</a>
+          <span>/</span>
+          <span style="color: #1d1d1f; font-weight: 500;">${pageData.title}</span>
+        </div>
+        <a href="${homeHref}" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.4rem 0.9rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; background: #ffffff; border: 1px solid rgba(0,0,0,0.12); color: #1d1d1f; text-decoration: none;">
+          ← ${ui.back}
+        </a>
+      </nav>
+
+      <article style="background: #ffffff; border-radius: 1.5rem; padding: 2.25rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <header style="margin-bottom: 2rem;">
+          <span style="display: inline-block; font-size: 0.75rem; font-weight: 600; color: #0071e3; background: rgba(0,113,227,0.08); padding: 0.25rem 0.6rem; border-radius: 9999px; margin-bottom: 0.75rem;">
+            🛡️ ${pageData.badge}
+          </span>
+          <h1 style="font-size: 2.25rem; font-weight: 800; color: #1d1d1f; margin: 0 0 0.5rem 0; line-height: 1.25;">${pageData.title}</h1>
+          <p style="font-size: 0.85rem; color: #86868b; margin: 0;">${pageData.lastUpdated}</p>
+        </header>
+
+        <div style="color: #333336; line-height: 1.6;">
+          ${sectionsHtml}
+        </div>
+
+        ${contactBoxHtml}
+      </article>
+
+      <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.08); font-size: 0.8rem; color: #86868b; text-align: center;">
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="${localeCode === 'en' ? '/about/' : `/${localeCode}/about/`}" style="color: #86868b; text-decoration: underline;">${ui.about}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/privacy/' : `/${localeCode}/privacy/`}" style="color: #86868b; text-decoration: underline;">${ui.privacy}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/terms/' : `/${localeCode}/terms/`}" style="color: #86868b; text-decoration: underline;">${ui.terms}</a>
+          <span>•</span>
+          <a href="${localeCode === 'en' ? '/contact/' : `/${localeCode}/contact/`}" style="color: #86868b; text-decoration: underline;">${ui.contact}</a>
+        </div>
       </footer>
     </div>
   `;
@@ -437,34 +532,76 @@ for (const locale of locales) {
   console.log(`✓ Generated: dist/${locale.code === 'en' ? 'json/' : locale.code + '/json/'}index.html`);
 }
 
-// 4. 生成包含三大工具 18 个多语言 URL 的标准 Google Sitemap.xml (包含绝对路径与 xhtml alternates)
-const buildSitemapUrlBlock = (loc, tool) => {
-  const getToolUrl = (code) => {
-    let sub = '';
-    if (tool === 'cron') sub = 'cron/';
-    if (tool === 'json') sub = 'json/';
-    if (code === 'en') return `${BASE_DOMAIN}/${sub}`;
-    return `${BASE_DOMAIN}/${code}/${sub}`;
+// 4. 生成四大合规页面 (About, Privacy, Terms, Contact) 24 个多语言 SSG 静态页面
+const compliancePages = ['about', 'privacy', 'terms', 'contact'];
+for (const pageType of compliancePages) {
+  for (const locale of locales) {
+    const targetDir = locale.code === 'en'
+      ? path.join(distDir, pageType)
+      : path.join(distDir, locale.code, pageType);
+
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+
+    const canonicalPath = locale.code === 'en' ? `/${pageType}/` : `/${locale.code}/${pageType}/`;
+    const canonicalUrl = `${BASE_DOMAIN}${canonicalPath}`;
+    const pageData = ssgComplianceData[locale.code]?.[pageType] || ssgComplianceData.en[pageType];
+    const pageDesc = pageData.sections[0]?.paragraphs[0]?.slice(0, 160) || pageData.title;
+
+    let localizedHtml = baseHtml
+      .replace('<html lang="en">', `<html lang="${locale.lang}">`)
+      .replace(/<title>.*?<\/title>/, `<title>${pageData.title} - DevText</title>`)
+      .replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${pageDesc.replace(/"/g, '&quot;')}" />`)
+      .replace(/<meta name="keywords" content=".*?" \/>/, `<meta name="keywords" content="devtext, ${pageType}, developer utilities, privacy, terms, contact" />`)
+      .replace(/<link rel="canonical" href=".*?" \/>/, `<link rel="canonical" href="${canonicalUrl}" />`)
+      .replace(/<!-- Multi-language SEO Hreflang Tags[\s\S]*?<link rel="canonical"/, `<!-- Multi-language SEO Hreflang Tags -->${buildHreflangTags(pageType)}\n    <link rel="canonical"`)
+      .replace(/<meta property="og:title" content=".*?" \/>/, `<meta property="og:title" content="${pageData.title}" />`)
+      .replace(/<meta property="og:description" content=".*?" \/>/, `<meta property="og:description" content="${pageDesc.replace(/"/g, '&quot;')}" />`)
+      .replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
+      .replace(/<meta property="og:locale" content=".*?" \/>/, `<meta property="og:locale" content="${locale.ogLocale}" />`)
+      .replace('data-locale="en"', `data-locale="${locale.code}"`)
+      .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildCompliancePrerenderHtml(pageType, locale.code)}</div>`);
+
+    fs.writeFileSync(path.join(targetDir, 'index.html'), localizedHtml, 'utf-8');
+    console.log(`✓ Generated: dist/${locale.code === 'en' ? pageType + '/' : locale.code + '/' + pageType + '/'}index.html`);
+  }
+}
+
+// 5. 生成包含 3 套工具 + 4 大合规页共 42 个多语言 URL 的标准 Google Sitemap.xml (包含绝对路径与 xhtml alternates)
+const buildSitemapUrlBlock = (loc, itemType) => {
+  const getItemUrl = (code) => {
+    if (itemType === 'case') {
+      return code === 'en' ? `${BASE_DOMAIN}/` : `${BASE_DOMAIN}/${code}/`;
+    }
+    if (['cron', 'json'].includes(itemType)) {
+      return code === 'en' ? `${BASE_DOMAIN}/${itemType}/` : `${BASE_DOMAIN}/${code}/${itemType}/`;
+    }
+    return code === 'en' ? `${BASE_DOMAIN}/${itemType}/` : `${BASE_DOMAIN}/${code}/${itemType}/`;
   };
 
+  const isTool = ['case', 'cron', 'json'].includes(itemType);
+  const priority = isTool ? (loc === 'en' ? '1.0' : '0.9') : (loc === 'en' ? '0.8' : '0.7');
+  const changefreq = isTool ? 'weekly' : 'monthly';
+
   return `  <url>
-    <loc>${getToolUrl(loc)}</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${getToolUrl('en')}" />
-    <xhtml:link rel="alternate" hreflang="en" href="${getToolUrl('en')}" />
-    <xhtml:link rel="alternate" hreflang="es" href="${getToolUrl('es')}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${getToolUrl('ja')}" />
-    <xhtml:link rel="alternate" hreflang="de" href="${getToolUrl('de')}" />
-    <xhtml:link rel="alternate" hreflang="fr" href="${getToolUrl('fr')}" />
-    <xhtml:link rel="alternate" hreflang="zh" href="${getToolUrl('zh')}" />
-    <changefreq>weekly</changefreq>
-    <priority>${loc === 'en' ? '1.0' : '0.9'}</priority>
+    <loc>${getItemUrl(loc)}</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${getItemUrl('en')}" />
+    <xhtml:link rel="alternate" hreflang="en" href="${getItemUrl('en')}" />
+    <xhtml:link rel="alternate" hreflang="es" href="${getItemUrl('es')}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${getItemUrl('ja')}" />
+    <xhtml:link rel="alternate" hreflang="de" href="${getItemUrl('de')}" />
+    <xhtml:link rel="alternate" hreflang="fr" href="${getItemUrl('fr')}" />
+    <xhtml:link rel="alternate" hreflang="zh" href="${getItemUrl('zh')}" />
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
   </url>`;
 };
 
 const sitemapBlocks = [];
-for (const tool of ['case', 'cron', 'json']) {
+for (const item of ['case', 'cron', 'json', 'about', 'privacy', 'terms', 'contact']) {
   for (const loc of ['en', 'es', 'ja', 'de', 'fr', 'zh']) {
-    sitemapBlocks.push(buildSitemapUrlBlock(loc, tool));
+    sitemapBlocks.push(buildSitemapUrlBlock(loc, item));
   }
 }
 
@@ -474,9 +611,9 @@ ${sitemapBlocks.join('\n')}
 </urlset>`;
 
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf-8');
-console.log('✓ Generated: dist/sitemap.xml (18 Fully Mirrored Localized URLs)');
+console.log('✓ Generated: dist/sitemap.xml (42 Fully Mirrored Localized URLs)');
 
-// 5. 生成 robots.txt
+// 6. 生成 robots.txt
 const robotsContent = `User-agent: *
 Allow: /
 
@@ -485,4 +622,4 @@ Sitemap: ${BASE_DOMAIN}/sitemap.xml
 fs.writeFileSync(path.join(distDir, 'robots.txt'), robotsContent, 'utf-8');
 console.log('✓ Generated: dist/robots.txt');
 
-console.log('🎉 3-Tool Suite & Multi-Language SSG build completed successfully!');
+console.log('🎉 3-Tool Suite & 4-Page Compliance Multi-Language SSG build completed successfully!');

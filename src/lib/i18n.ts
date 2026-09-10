@@ -34,8 +34,10 @@ export interface Translation {
     zeroLatency: string;
     footerTitle: string;
     footerSubtitle: string;
+    aboutUs: string;
     privacyPolicy: string;
     termsOfService: string;
+    contactUs: string;
     aboutContact: string;
     toolsTab: string;
     howToTab: string;
@@ -214,8 +216,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Zero Latency Engine',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'High-Performance Developer Utilities',
+      aboutUs: 'About Us',
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
+      contactUs: 'Contact Us',
       aboutContact: 'About & Contact',
       toolsTab: 'Utilities',
       howToTab: 'How-To Guide',
@@ -424,8 +428,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Procesamiento Instantáneo',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Utilidades de Alto Rendimiento para Desarrolladores',
+      aboutUs: 'Acerca de',
       privacyPolicy: 'Política de Privacidad',
       termsOfService: 'Términos de Servicio',
+      contactUs: 'Contacto',
       aboutContact: 'Acerca de y Contacto',
       toolsTab: 'Utilidades',
       howToTab: 'Cómo usar',
@@ -626,8 +632,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'ゼロ遅延・高速変換',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'エンジニア向け高効率テキスト＆Cronユーティリティ',
+      aboutUs: '運営者について',
       privacyPolicy: 'プライバシーポリシー',
       termsOfService: '利用規約',
+      contactUs: 'お問い合わせ',
       aboutContact: '運営者・お問い合わせ',
       toolsTab: 'ツール一覧',
       howToTab: '使い方ガイド',
@@ -828,8 +836,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Null-Latenz-Engine',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Hochleistungs-Entwickler-Werkzeuge',
+      aboutUs: 'Über uns',
       privacyPolicy: 'Datenschutzerklärung',
       termsOfService: 'Nutzungsbedingungen',
+      contactUs: 'Kontakt',
       aboutContact: 'Über uns & Kontakt',
       toolsTab: 'Entwickler-Tools',
       howToTab: 'Anleitung',
@@ -1026,8 +1036,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: 'Moteur Zéro Latence',
       footerTitle: 'DevText Toolkit',
       footerSubtitle: 'Utilitaires Développeurs Haute Performance',
+      aboutUs: 'À propos',
       privacyPolicy: 'Confidentialité',
       termsOfService: 'Conditions d\'utilisation',
+      contactUs: 'Contact',
       aboutContact: 'À propos & Contact',
       toolsTab: 'Utilitaires',
       howToTab: 'Guide d\'utilisation',
@@ -1224,8 +1236,10 @@ export const translations: Record<Locale, Translation> = {
       zeroLatency: '瞬时零延迟引擎',
       footerTitle: 'DevText 开发者工具箱',
       footerSubtitle: '专注极致性能的高效开发生产力套件',
+      aboutUs: '关于我们',
       privacyPolicy: '隐私政策',
       termsOfService: '服务条款',
+      contactUs: '联系我们',
       aboutContact: '关于与联系',
       toolsTab: '极客工具箱',
       howToTab: '3步操作指南',
