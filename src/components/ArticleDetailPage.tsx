@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Locale, ToolType } from '../lib/i18n';
 import { Article } from '../lib/articlesData';
-import { Clock, ArrowLeft, Check, Copy, Lightbulb, AlertTriangle, Info, Sparkles, BookOpen } from 'lucide-react';
+import { geoTakeawaysData, geoLabelsByLocale } from '../lib/geoTakeaways';
+import { Clock, ArrowLeft, Check, Copy, Lightbulb, AlertTriangle, Info, Sparkles, BookOpen, Zap } from 'lucide-react';
 
 interface ArticleDetailPageProps {
   article: Article;
@@ -113,6 +114,8 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
   if (article.id.includes('json') || article.slug.includes('json')) targetTool = 'json';
 
   const otherArticles = allArticles.filter(a => a.id !== article.id);
+  const geoLabels = geoLabelsByLocale[locale] || geoLabelsByLocale.en;
+  const takeaways = geoTakeawaysData[article.id]?.[locale] || geoTakeawaysData[article.id]?.en || [];
 
   return (
     <div className="w-full max-w-4xl mx-auto py-6 sm:py-10 px-4 sm:px-6">
@@ -182,6 +185,33 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
             </span>
           </div>
         </header>
+
+        {/* [GEO & AI Engine Direct Answer Block] */}
+        {takeaways && takeaways.length > 0 && (
+          <aside aria-label="Key Takeaways" className="mb-10 p-5 sm:p-6 rounded-2xl bg-[#0071E3]/[0.04] dark:bg-[#0071E3]/[0.08] border border-[#0071E3]/20 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="p-1.5 rounded-lg bg-[#0071E3]/10 text-[#0071E3] dark:text-[#2997FF]">
+                <Zap className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="text-sm sm:text-base font-bold text-[#1D1D1F] dark:text-[#F5F5F7]">
+                  {geoLabels.title}
+                </h3>
+                <p className="text-[11px] sm:text-xs text-[#86868B]">
+                  {geoLabels.subtitle}
+                </p>
+              </div>
+            </div>
+            <ul className="space-y-2 text-xs sm:text-sm text-[#333336] dark:text-[#D1D1D6] pl-1">
+              {takeaways.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
+                  <span className="text-[#0071E3] dark:text-[#2997FF] font-bold text-sm mt-[-1px] flex-shrink-0">✓</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
 
         {/* Sections */}
         <div className="space-y-10 text-[#333336] dark:text-[#D1D1D6]">

@@ -212,6 +212,7 @@ import {
 } from './ssg-data.js';
 import { ssgComplianceData } from './ssg-compliance-data.js';
 import { ssgArticlesData } from './ssg-articles-data.js';
+import { geoLabelsByLocale, geoTakeawaysData } from './geo-takeaways-data.js';
 
 function buildFaqSchema(localeCode = 'en') {
   const faq = ssgFaqByLocale[localeCode] || ssgFaqByLocale.en;
@@ -226,6 +227,78 @@ function buildFaqSchema(localeCode = 'en') {
         "text": f.answer
       }
     }))
+  };
+  return `  <script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n  </script>`;
+}
+
+// 为技术长文生成深度 TechArticle 与 BreadcrumbList 结构化 Schema (面向 Google AI Overviews & GEO)
+function buildArticleJsonLdSchema(article, canonicalUrl, locale) {
+  const homeUrl = locale.code === 'en' ? `${BASE_DOMAIN}/` : `${BASE_DOMAIN}/${locale.code}/`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": `${canonicalUrl}#article`,
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": `${BASE_DOMAIN}/#website`,
+          "name": "DevText Toolkit",
+          "url": BASE_DOMAIN
+        },
+        "headline": article.title,
+        "description": article.summary,
+        "inLanguage": locale.lang,
+        "mainEntityOfPage": canonicalUrl,
+        "datePublished": "2026-09-01T08:00:00+00:00",
+        "dateModified": "2026-09-10T08:00:00+00:00",
+        "articleSection": article.category,
+        "author": {
+          "@type": "Organization",
+          "name": "DevText Engineering Lab",
+          "url": BASE_DOMAIN
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "DevText Toolkit",
+          "url": BASE_DOMAIN,
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${BASE_DOMAIN}/favicon.svg`
+          }
+        },
+        "keywords": [
+          article.category,
+          "code architecture",
+          "developer guide",
+          "devtext"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${canonicalUrl}#breadcrumb`,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": homeUrl
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": `${homeUrl}#guides`
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": article.title,
+            "item": canonicalUrl
+          }
+        ]
+      }
+    ]
   };
   return `  <script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n  </script>`;
 }
@@ -478,6 +551,26 @@ function buildArticlePrerenderHtml(article, allArticles, localeCode = 'en') {
     toolHref = localeCode === 'en' ? '/json/' : `/${localeCode}/json/`;
   }
 
+  const geoLabel = geoLabelsByLocale[localeCode] || geoLabelsByLocale.en;
+  const takeaways = geoTakeawaysData[article.id]?.[localeCode] || geoTakeawaysData[article.id]?.en || [];
+  let takeawaysHtml = '';
+  if (takeaways.length > 0) {
+    takeawaysHtml = `
+      <aside aria-label="Key Takeaways" style="margin-bottom: 2.5rem; padding: 1.5rem; background: rgba(0,113,227,0.04); border-radius: 1rem; border: 1px solid rgba(0,113,227,0.2);">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.1rem;">⚡</span>
+          <div>
+            <h3 style="font-size: 1rem; font-weight: 700; color: #1d1d1f; margin: 0;">${geoLabel.title}</h3>
+            <p style="font-size: 0.8rem; color: #86868b; margin: 0.15rem 0 0 0;">${geoLabel.subtitle}</p>
+          </div>
+        </div>
+        <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.92rem; color: #333336; line-height: 1.65;">
+          ${takeaways.map(t => `<li style="margin-bottom: 0.4rem;">${t}</li>`).join('')}
+        </ul>
+      </aside>
+    `;
+  }
+
   const sectionsHtml = article.sections.map(sec => {
     let calloutHtml = '';
     if (sec.callout) {
@@ -551,6 +644,8 @@ function buildArticlePrerenderHtml(article, allArticles, localeCode = 'en') {
           <p style="font-size: 1.05rem; color: #6e6e73; line-height: 1.6; margin: 0;">${article.summary}</p>
           <div style="margin-top: 1rem; font-size: 0.8rem; color: #34c759; font-weight: 600;">${ui.verified}</div>
         </header>
+
+        ${takeawaysHtml}
 
         <div>
           ${sectionsHtml}
@@ -746,6 +841,7 @@ for (const baseArt of ssgArticlesData.en) {
       .replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
       .replace(/<meta property="og:locale" content=".*?" \/>/, `<meta property="og:locale" content="${locale.ogLocale}" />`)
       .replace('data-locale="en"', `data-locale="${locale.code}"`)
+      .replace(/<!-- JSON-LD Schema for Google & AI Engines[\s\S]*?<\/script>/, `<!-- JSON-LD Schema for Google & AI Engines (TechArticle & BreadcrumbList GEO) -->\n${buildArticleJsonLdSchema(article, canonicalUrl, locale)}`)
       .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildArticlePrerenderHtml(article, currentArts, locale.code)}</div>`);
 
     fs.writeFileSync(path.join(targetDir, 'index.html'), localizedHtml, 'utf-8');
@@ -823,7 +919,7 @@ ${sitemapBlocks.join('\n')}
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf-8');
 console.log('✓ Generated: dist/sitemap.xml (66 Fully Mirrored Localized URLs)');
 
-// 7. 生成 robots.txt
+// 7. 生成 robots.txt (包含 Google, AdSense 与主流 AI 搜索爬虫白名单)
 const robotsContent = `User-agent: Googlebot
 Allow: /
 
@@ -833,12 +929,32 @@ Allow: /
 User-agent: AdsBot-Google
 Allow: /
 
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
 User-agent: *
 Allow: /
 
 Sitemap: ${BASE_DOMAIN}/sitemap.xml
 `;
 fs.writeFileSync(path.join(distDir, 'robots.txt'), robotsContent, 'utf-8');
-console.log('✓ Generated: dist/robots.txt (Explicit Google & AdSense Crawler Whitelist)');
+console.log('✓ Generated: dist/robots.txt (Explicit Google, AdSense & AI Crawler Whitelist)');
 
-console.log('🎉 3-Tool Suite, 4-Page Compliance & 4-Article Tech Guides Multi-Language SSG build completed successfully!');
+// 8. 复制并分发 llms.txt 与 llms-full.txt (面向 LLM / GEO 标准)
+const publicDir = path.resolve(__dirname, '../public');
+if (fs.existsSync(path.join(publicDir, 'llms.txt'))) {
+  fs.copyFileSync(path.join(publicDir, 'llms.txt'), path.join(distDir, 'llms.txt'));
+  console.log('✓ Deployed: dist/llms.txt (AI Search & GEO Index Standard)');
+}
+if (fs.existsSync(path.join(publicDir, 'llms-full.txt'))) {
+  fs.copyFileSync(path.join(publicDir, 'llms-full.txt'), path.join(distDir, 'llms-full.txt'));
+  console.log('✓ Deployed: dist/llms-full.txt (AI Search Full Knowledge Base)');
+}
+
+console.log('🎉 3-Tool Suite, 4-Page Compliance & 4-Article Tech Guides Multi-Language SSG + GEO build completed successfully!');

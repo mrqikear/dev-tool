@@ -227,24 +227,51 @@ for (const relPath of expectedPages) {
   }
 }
 
-// 5.7 Sitemap.xml 审计
+// 5.7 Sitemap.xml 审计 (全量 66 个多语言静态 URL)
 const sitemapPath = path.join(distDir, 'sitemap.xml');
 const sitemapExists = fs.existsSync(sitemapPath);
 recordTest('seoGeoAudit', 'Sitemap.xml exists in dist', sitemapExists);
 if (sitemapExists) {
   const sitemapXml = fs.readFileSync(sitemapPath, 'utf-8');
   const urlCount = (sitemapXml.match(/<loc>/g) || []).length;
-  recordTest('seoGeoAudit', 'Sitemap.xml contains all 18 localized URLs', urlCount === 18, `Found ${urlCount} URLs`);
+  recordTest('seoGeoAudit', 'Sitemap.xml contains all 66 localized URLs', urlCount === 66, `Found ${urlCount} URLs`);
   recordTest('seoGeoAudit', 'Sitemap.xml contains xhtml:link alternates', sitemapXml.includes('xhtml:link rel="alternate"'));
 }
 
-// 5.8 Robots.txt 审计
+// 5.8 Robots.txt 审计 (包含 Google, AdSense 与主流 AI 搜索爬虫)
 const robotsPath = path.join(distDir, 'robots.txt');
 const robotsExists = fs.existsSync(robotsPath);
 recordTest('seoGeoAudit', 'Robots.txt exists in dist', robotsExists);
 if (robotsExists) {
   const robotsTxt = fs.readFileSync(robotsPath, 'utf-8');
   recordTest('seoGeoAudit', 'Robots.txt references Sitemap', robotsTxt.includes('Sitemap:'));
+  recordTest('seoGeoAudit', 'Robots.txt whitelists PerplexityBot', robotsTxt.includes('PerplexityBot'));
+  recordTest('seoGeoAudit', 'Robots.txt whitelists ChatGPT-User', robotsTxt.includes('ChatGPT-User'));
+  recordTest('seoGeoAudit', 'Robots.txt whitelists Mediapartners-Google', robotsTxt.includes('Mediapartners-Google'));
+}
+
+// 5.9 GEO llms.txt 与 llms-full.txt 标准审计
+const llmsPath = path.join(distDir, 'llms.txt');
+const llmsExists = fs.existsSync(llmsPath);
+recordTest('seoGeoAudit', 'llms.txt exists in dist', llmsExists);
+if (llmsExists) {
+  const llmsTxt = fs.readFileSync(llmsPath, 'utf-8');
+  recordTest('seoGeoAudit', 'llms.txt contains tools & articles index', llmsTxt.includes('Letter Case') && llmsTxt.includes('Programming Naming Conventions'));
+}
+
+const llmsFullPath = path.join(distDir, 'llms-full.txt');
+const llmsFullExists = fs.existsSync(llmsFullPath);
+recordTest('seoGeoAudit', 'llms-full.txt exists in dist', llmsFullExists);
+
+// 5.10 技术长文 TechArticle 与 GEO Direct Answer 审计
+const sampleArticlePath = path.join(distDir, 'articles', 'programming-naming-conventions-complete-guide', 'index.html');
+const sampleArticleExists = fs.existsSync(sampleArticlePath);
+recordTest('seoGeoAudit', 'Sample Article HTML exists in dist', sampleArticleExists);
+if (sampleArticleExists) {
+  const artHtml = fs.readFileSync(sampleArticlePath, 'utf-8');
+  recordTest('seoGeoAudit', 'Article contains TechArticle Schema', artHtml.includes('"@type": "TechArticle"'));
+  recordTest('seoGeoAudit', 'Article contains BreadcrumbList Schema', artHtml.includes('"@type": "BreadcrumbList"'));
+  recordTest('seoGeoAudit', 'Article contains GEO Direct Answer block', artHtml.includes('Key Takeaways'));
 }
 
 // 保存测试结果数据供生成报告

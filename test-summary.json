@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-28T08:22:17.984Z",
-  "totalTests": 191,
-  "passed": 191,
+  "timestamp": "2026-09-10T06:13:26.892Z",
+  "totalTests": 201,
+  "passed": 201,
   "failed": 0,
   "categories": {
     "toolCase": {
@@ -333,8 +333,8 @@
       ]
     },
     "seoGeoAudit": {
-      "total": 131,
-      "passed": 131,
+      "total": 141,
+      "passed": 141,
       "failed": 0,
       "cases": [
         {
@@ -973,9 +973,9 @@
           "detail": ""
         },
         {
-          "name": "Sitemap.xml contains all 18 localized URLs",
+          "name": "Sitemap.xml contains all 66 localized URLs",
           "pass": true,
-          "detail": "Found 18 URLs"
+          "detail": "Found 66 URLs"
         },
         {
           "name": "Sitemap.xml contains xhtml:link alternates",
@@ -989,6 +989,56 @@
         },
         {
           "name": "Robots.txt references Sitemap",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Robots.txt whitelists PerplexityBot",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Robots.txt whitelists ChatGPT-User",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Robots.txt whitelists Mediapartners-Google",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "llms.txt exists in dist",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "llms.txt contains tools & articles index",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "llms-full.txt exists in dist",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Sample Article HTML exists in dist",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Article contains TechArticle Schema",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Article contains BreadcrumbList Schema",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Article contains GEO Direct Answer block",
           "pass": true,
           "detail": ""
         }

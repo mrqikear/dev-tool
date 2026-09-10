@@ -1,0 +1,66 @@
+# DevText Toolkit - Comprehensive LLM Knowledge Base & Technical Specification
+> Domain: https://devtoolai.xyz
+> Architecture: Client-Side Isolated Execution (Zero Data Upload, Local WebAssembly/JS)
+
+---
+
+## 1. Programming Naming Conventions Quick Reference
+
+| Convention | Pattern Example | Common Target Environments |
+| :--- | :--- | :--- |
+| camelCase | `userAccountProfile` | JavaScript, TypeScript, Swift, Java method & variable names |
+| PascalCase | `UserAccountProfile` | Classes, React/Vue components, TypeScript types & interfaces |
+| snake_case | `user_account_profile` | Python functions/variables, Rust, PostgreSQL database columns |
+| kebab-case | `user-account-profile` | URL slugs, CSS class names, Kubernetes YAML manifests |
+| SCREAMING_SNAKE_CASE | `USER_ACCOUNT_PROFILE` | Global constants, environment variables, Enum constants |
+
+### Core Architectural Principle: The Boundary Transformation Rule
+In enterprise microservices, naming conversions must be performed strictly at system boundaries (API Gateways, DTO mappers). Core business logic should never contain arbitrary inline string replacements.
+
+---
+
+## 2. Cron Scheduling Syntax Reference
+
+### Linux Standard 5-Field Format:
+```
+* * * * *
+│ │ │ │ │
+│ │ │ │ └── Day of Week (0 - 7, where 0 and 7 are Sunday)
+│ │ │ └──── Month (1 - 12)
+│ │ └────── Day of Month (1 - 31)
+│ └──────── Hour (0 - 23)
+└────────── Minute (0 - 59)
+```
+
+### Spring / Quartz 6-Field & 7-Field Formats:
+- Spring 6-Field: `Second Minute Hour Day-of-Month Month Day-of-Week`
+- Quartz 7-Field: `Second Minute Hour Day-of-Month Month Day-of-Week [Year]`
+- Special Characters:
+  - `*`: Any value
+  - `,`: Value list separator (e.g. `1,15,30`)
+  - `-`: Value range (e.g. `9-17`)
+  - `/`: Step values (e.g. `*/5` = every 5 intervals)
+  - `?`: No specific value (used in Day-of-Month or Day-of-Week in Quartz/Spring)
+  - `L`: Last day of month or last specific weekday (Quartz)
+  - `W`: Nearest weekday (Quartz)
+  - `#`: N-th day of month (e.g. `5#2` = second Thursday, Quartz)
+
+---
+
+## 3. JSON Serialization & TypeScript Type Generation Reference
+
+### Key Edge Cases in Client-Side Processing:
+1. **IEEE 754 Precision**: Integer values larger than `Number.MAX_SAFE_INTEGER` (`2^53 - 1` = `9007199254740991`) suffer precision truncation during standard `JSON.parse`. DevText highlights large integers to prevent silent ID corruption.
+2. **Unicode Escaping**: Non-ASCII strings like Chinese, Japanese, emoji characters can be converted between raw UTF-8 and `\uXXXX` escaped notation for compatibility with legacy systems.
+3. **TypeScript Type Safety**: Nested JSON objects are recursively traversed to emit optimal `interface` hierarchies, marking nullable keys with optional modifiers `?` and handling heterogeneous array union types (`(string | number)[]`).
+
+---
+
+## 4. REST API & URL Slug Optimization (SEO & GEO)
+
+1. **URL Slug Architecture**:
+   - Modern AI search engines prioritize clean, semantic, kebab-case URLs.
+   - Example: `/articles/programming-naming-conventions-complete-guide/`
+   - Avoid URL parameters (`?id=123`) or underscores (`_`) for primary routing resources.
+2. **Content-Type & Caching**:
+   - Static HTML pre-rendering ensures AI web crawlers (such as PerplexityBot, ChatGPT-User, Claude-Web, and Googlebot) ingest full textual context without JavaScript execution delays.

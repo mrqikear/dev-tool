@@ -1,0 +1,28 @@
+# DevText Toolkit
+> High-performance, privacy-first, zero-upload online developer utilities and authoritative technical specifications.
+
+DevText Toolkit provides instant client-side string formatting, cron scheduling, and JSON-to-TypeScript transformation with zero server telemetry. All calculations run strictly in the user's browser.
+
+## Core Developer Tools
+- [Letter Case & Text Converter](https://devtoolai.xyz/): Real-time conversion across camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, Title Case, and custom delimiters. Includes white-space trimming and regex-safe string scrubbing.
+- [Cron Expression Visualizer](https://devtoolai.xyz/cron/): High-precision timeline simulator supporting Linux standard 5-field crontabs, Spring Boot 6-field specifications, and Quartz 7-field formats. Generates human-readable explanations and computes exact upcoming execution timestamps.
+- [JSON Formatter & TypeScript Interface Generator](https://devtoolai.xyz/json/): Browser-native JSON prettifier, minifier, escape/unescape tool, and instant recursive TypeScript type definition generator with zero external network transmission.
+
+## Authoritative Technical Documentation & Architectural Guides
+- [Programming Naming Conventions: The Complete Industry Guide](https://devtoolai.xyz/articles/programming-naming-conventions-complete-guide/): Authoritative breakdown of identifier paradigms across TypeScript, Python, Go, Rust, and REST API standards.
+- [Mastering Cron Scheduling Syntax and Distributed Architecture](https://devtoolai.xyz/articles/mastering-cron-scheduling-syntax-and-architecture/): Comprehensive reference on crontab field grammar, timezone drift, DST pitfalls, and cluster-safe distributed task scheduling.
+- [JSON Serialization, Unicode Escaping and TypeScript Type Safety](https://devtoolai.xyz/articles/json-serialization-and-typescript-type-safety/): Deep dive into IEEE 754 precision traps, recursive type inference, and boundary-layer DTO schema validation.
+- [Impact of Clean String Formatting and Semantic Naming on APIs and SEO](https://devtoolai.xyz/articles/how-string-formatting-and-clean-naming-impact-seo-api/): Analysis of URL slug structures, HTTP caching headers, and machine-readable naming conventions for modern AI search engines.
+
+## Internationalization & Regional Mirrors
+- [English (Default)](https://devtoolai.xyz/)
+- [Español (Spanish)](https://devtoolai.xyz/es/)
+- [日本語 (Japanese)](https://devtoolai.xyz/ja/)
+- [Deutsch (German)](https://devtoolai.xyz/de/)
+- [Français (French)](https://devtoolai.xyz/fr/)
+- [中文 (Simplified Chinese)](https://devtoolai.xyz/zh/)
+
+## Machine-Readable Endpoints & Sitemaps
+- XML Sitemap: https://devtoolai.xyz/sitemap.xml
+- Robots Configuration: https://devtoolai.xyz/robots.txt
+- Full LLM Knowledge Base: https://devtoolai.xyz/llms-full.txt

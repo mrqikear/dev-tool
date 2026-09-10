@@ -70,6 +70,34 @@ export function App() {
   const [isDark, setIsDark] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
+  const [geoSuggestLocale, setGeoSuggestLocale] = useState<Locale | null>(null);
+
+  // [GEO & 用户体验优化] - 浏览器语言与地理偏好智能识别（无侵入式顶栏提示）
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const dismissed = localStorage.getItem('devtext_dismissed_geo_prompt');
+      if (dismissed) return;
+
+      const path = window.location.pathname.toLowerCase();
+      const currentLocInPath = (['zh', 'es', 'ja', 'de', 'fr'] as Locale[]).find(l => path.startsWith(`/${l}/`) || path === `/${l}`);
+      if (currentLocInPath) return;
+
+      const browserLang = (navigator.language || (navigator as any).languages?.[0] || '').toLowerCase();
+      let detected: Locale | null = null;
+      if (browserLang.startsWith('zh')) detected = 'zh';
+      else if (browserLang.startsWith('es')) detected = 'es';
+      else if (browserLang.startsWith('ja')) detected = 'ja';
+      else if (browserLang.startsWith('de')) detected = 'de';
+      else if (browserLang.startsWith('fr')) detected = 'fr';
+
+      if (detected && detected !== locale) {
+        setGeoSuggestLocale(detected);
+      }
+    } catch {
+      // safe fallback
+    }
+  }, [locale]);
 
   const t = translations[locale] || translations.en;
 
@@ -230,8 +258,60 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const geoBannerTexts: Record<Locale, { prompt: string; action: string; dismiss: string }> = {
+    zh: { prompt: '检测到您的系统语言偏好为中文，是否切换至中文界面？', action: '立即切换', dismiss: '保持' },
+    es: { prompt: 'Detectamos que su idioma preferido es el Español. ¿Desea cambiar de idioma?', action: 'Cambiar', dismiss: 'Mantener' },
+    ja: { prompt: 'ブラウザの言語設定（日本語）が検出されました。日本語版に切り替えますか？', action: '切り替える', dismiss: '閉じる' },
+    de: { prompt: 'Wir haben Deutsch als Ihre bevorzugte Sprache erkannt. Möchten Sie wechseln?', action: 'Wechseln', dismiss: 'Beibehalten' },
+    fr: { prompt: 'Votre langue de navigation préférée est le Français. Souhaitez-vous basculer ?', action: 'Basculer', dismiss: 'Conserver' },
+    en: { prompt: 'Switch to English interface?', action: 'Switch', dismiss: 'Dismiss' },
+  };
+
+  const handleSwitchGeoLocale = (targetLoc: Locale) => {
+    try { localStorage.setItem('devtext_dismissed_geo_prompt', 'true'); } catch {}
+    setGeoSuggestLocale(null);
+    if (currentPage === 'article' && activeArticleSlug) {
+      navigateToArticle(activeArticleSlug, targetLoc);
+    } else if (currentPage !== 'tools') {
+      navigateToCompliance(currentPage as CompliancePageType, targetLoc);
+    } else {
+      updateRoute(activeTool, targetLoc);
+    }
+  };
+
+  const handleDismissGeoBanner = () => {
+    try { localStorage.setItem('devtext_dismissed_geo_prompt', 'true'); } catch {}
+    setGeoSuggestLocale(null);
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-[#1D1D1F] dark:text-[#F5F5F7] font-sans antialiased transition-colors duration-200 flex flex-col">
+      {/* [GEO & 地理语言智能提示横幅] */}
+      {geoSuggestLocale && geoBannerTexts[geoSuggestLocale] && (
+        <div className="bg-[#0071E3] text-white px-4 py-2 text-xs sm:text-sm font-medium flex items-center justify-between shadow-sm z-50">
+          <div className="max-w-5xl mx-auto w-full flex items-center justify-between gap-3 flex-wrap">
+            <span className="flex items-center gap-2">
+              <Globe className="w-4 h-4 flex-shrink-0 animate-pulse" />
+              <span>{geoBannerTexts[geoSuggestLocale].prompt}</span>
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleSwitchGeoLocale(geoSuggestLocale)}
+                className="px-3 py-1 bg-white text-[#0071E3] rounded-full font-bold text-xs hover:bg-white/90 shadow-sm transition-transform active:scale-95 cursor-pointer"
+              >
+                {geoBannerTexts[geoSuggestLocale].action}
+              </button>
+              <button
+                onClick={handleDismissGeoBanner}
+                className="px-2 py-1 text-white/80 hover:text-white text-xs cursor-pointer"
+              >
+                ✕ {geoBannerTexts[geoSuggestLocale].dismiss}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 顶部 Apple 风格磨砂导航栏 */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-[#161617]/80 border-b border-black/[0.08] dark:border-white/[0.12] transition-colors">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
