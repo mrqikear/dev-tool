@@ -167,6 +167,50 @@ export function App() {
     updateRoute(targetTool, targetLocale);
   };
 
+  // 全局锚点平滑跨页面跳转导航函数 (解决无论在合规页、文章页还是工具子页均可点击直接跳转定位)
+  const navigateToSection = (sectionId: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+    const basePath = locale === 'en' ? '' : `/${locale}`;
+    const targetPath = `${basePath}/#${sectionId}`;
+
+    if (currentPage !== 'tools') {
+      setCurrentPage('tools');
+      setActiveArticleSlug(null);
+      if (typeof window !== 'undefined') {
+        window.history.pushState({}, '', targetPath);
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }, 100);
+      }
+    } else {
+      if (typeof window !== 'undefined') {
+        window.history.pushState({}, '', targetPath);
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
+  // 页面首屏加载时检查 URL hash 并自动平滑滚动
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const targetId = window.location.hash.replace(/^#/, '');
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 180);
+    }
+  }, []);
+
   // 监听暗黑模式
   useEffect(() => {
     if (isDark) {
@@ -210,6 +254,14 @@ export function App() {
         setLocale(firstSegment as Locale);
       } else {
         setLocale('en');
+      }
+
+      if (window.location.hash) {
+        const targetId = window.location.hash.replace(/^#/, '');
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
       }
     };
 
@@ -366,37 +418,37 @@ export function App() {
 
             <div className="h-4 w-px bg-black/10 dark:bg-white/10 mx-1" />
             <a
-              href="#how-to"
-              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
-              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href={locale === 'en' ? '/#how-to' : `/${locale}/#how-to`}
+              onClick={(e) => navigateToSection('how-to', e)}
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full cursor-pointer"
             >
               {t.nav.howToTab}
             </a>
             <a
-              href="#use-cases"
-              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
-              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href={locale === 'en' ? '/#use-cases' : `/${locale}/#use-cases`}
+              onClick={(e) => navigateToSection('use-cases', e)}
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full cursor-pointer"
             >
               {t.nav.useCasesTab}
             </a>
             <a
-              href="#cheatsheet"
-              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
-              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href={locale === 'en' ? '/#cheatsheet' : `/${locale}/#cheatsheet`}
+              onClick={(e) => navigateToSection('cheatsheet', e)}
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full cursor-pointer"
             >
               {t.nav.cheatsheetTab}
             </a>
             <a
-              href="#guides"
-              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
-              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href={locale === 'en' ? '/#guides' : `/${locale}/#guides`}
+              onClick={(e) => navigateToSection('guides', e)}
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full cursor-pointer"
             >
               {t.nav.guidesTab}
             </a>
             <a
-              href="#faq"
-              onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }}
-              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href={locale === 'en' ? '/#faq' : `/${locale}/#faq`}
+              onClick={(e) => navigateToSection('faq', e)}
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full cursor-pointer"
             >
               {t.nav.faqTab}
             </a>
@@ -478,26 +530,37 @@ export function App() {
             ⚡ {t.nav.jsonProcessor}
           </button>
           <a
-            href="#use-cases"
-            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+            href={locale === 'en' ? '/#how-to' : `/${locale}/#how-to`}
+            onClick={(e) => navigateToSection('how-to', e)}
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06] cursor-pointer"
+          >
+            ⚡ {t.nav.howToTab}
+          </a>
+          <a
+            href={locale === 'en' ? '/#use-cases' : `/${locale}/#use-cases`}
+            onClick={(e) => navigateToSection('use-cases', e)}
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06] cursor-pointer"
           >
             🎯 {t.nav.useCasesTab}
           </a>
           <a
-            href="#cheatsheet"
-            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+            href={locale === 'en' ? '/#cheatsheet' : `/${locale}/#cheatsheet`}
+            onClick={(e) => navigateToSection('cheatsheet', e)}
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06] cursor-pointer"
           >
             💡 {t.nav.cheatsheetTab}
           </a>
           <a
-            href="#guides"
-            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+            href={locale === 'en' ? '/#guides' : `/${locale}/#guides`}
+            onClick={(e) => navigateToSection('guides', e)}
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06] cursor-pointer"
           >
             📚 {t.nav.guidesTab}
           </a>
           <a
-            href="#faq"
-            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+            href={locale === 'en' ? '/#faq' : `/${locale}/#faq`}
+            onClick={(e) => navigateToSection('faq', e)}
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06] cursor-pointer"
           >
             💬 {t.nav.faqTab}
           </a>
@@ -637,23 +700,43 @@ export function App() {
             <span>{t.nav.footerSubtitle}</span>
           </div>
           <div className="flex items-center space-x-3 text-xs flex-wrap gap-y-2">
-            <a href="#how-to" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a
+              href={locale === 'en' ? '/#how-to' : `/${locale}/#how-to`}
+              onClick={(e) => navigateToSection('how-to', e)}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors cursor-pointer"
+            >
               {t.nav.howToTab}
             </a>
             <span>•</span>
-            <a href="#use-cases" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a
+              href={locale === 'en' ? '/#use-cases' : `/${locale}/#use-cases`}
+              onClick={(e) => navigateToSection('use-cases', e)}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors cursor-pointer"
+            >
               {t.nav.useCasesTab}
             </a>
             <span>•</span>
-            <a href="#cheatsheet" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a
+              href={locale === 'en' ? '/#cheatsheet' : `/${locale}/#cheatsheet`}
+              onClick={(e) => navigateToSection('cheatsheet', e)}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors cursor-pointer"
+            >
               {t.nav.cheatsheetTab}
             </a>
             <span>•</span>
-            <a href="#guides" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a
+              href={locale === 'en' ? '/#guides' : `/${locale}/#guides`}
+              onClick={(e) => navigateToSection('guides', e)}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors cursor-pointer"
+            >
               {t.nav.guidesTab}
             </a>
             <span>•</span>
-            <a href="#faq" onClick={() => { if (currentPage !== 'tools') setCurrentPage('tools'); }} className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+            <a
+              href={locale === 'en' ? '/#faq' : `/${locale}/#faq`}
+              onClick={(e) => navigateToSection('faq', e)}
+              className="hover:underline text-[#86868B] hover:text-[#0071E3] transition-colors cursor-pointer"
+            >
               {t.nav.faqTab}
             </a>
             <span>•</span>
