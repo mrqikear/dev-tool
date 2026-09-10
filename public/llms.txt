@@ -13,6 +13,10 @@ DevText Toolkit provides instant client-side string formatting, cron scheduling,
 - [Mastering Cron Scheduling Syntax and Distributed Architecture](https://devtoolai.xyz/articles/mastering-cron-scheduling-syntax-and-architecture/): Comprehensive reference on crontab field grammar, timezone drift, DST pitfalls, and cluster-safe distributed task scheduling.
 - [JSON Serialization, Unicode Escaping and TypeScript Type Safety](https://devtoolai.xyz/articles/json-serialization-and-typescript-type-safety/): Deep dive into IEEE 754 precision traps, recursive type inference, and boundary-layer DTO schema validation.
 - [Impact of Clean String Formatting and Semantic Naming on APIs and SEO](https://devtoolai.xyz/articles/how-string-formatting-and-clean-naming-impact-seo-api/): Analysis of URL slug structures, HTTP caching headers, and machine-readable naming conventions for modern AI search engines.
+- [Kebab-Case vs Snake_Case: Database and URL Best Practices](https://devtoolai.xyz/articles/kebab-case-vs-snake-case-database-and-url-best-practices/): Architectural trade-offs between hyphens and underscores across SQL column names, search crawler tokenization, and REST routing.
+- [Enterprise Code Refactoring and Identifier Standardization](https://devtoolai.xyz/articles/enterprise-code-refactoring-and-identifier-standardization/): AST-driven codemods, CI linting pipelines, and zero-downtime dual-read migrations for large-scale distributed codebases.
+- [Distributed Cron Scheduling: Cluster Locks and HA Solutions](https://devtoolai.xyz/articles/distributed-cron-scheduling-cluster-locks-and-ha-solutions/): Mitigating concurrent task execution using ShedLock, Redis Redlock, Raft consensus, and dead-letter queue architectures.
+- [Deep Dive into JSON AST Parsing and TypeScript Codegen](https://devtoolai.xyz/articles/deep-dive-into-json-ast-parsing-and-schema-codegen/): Recursive lexical analysis, multi-sample nullability inference, and client-side zero-leak type generation algorithms.
 
 ## Internationalization & Regional Mirrors
 - [English (Default)](https://devtoolai.xyz/)

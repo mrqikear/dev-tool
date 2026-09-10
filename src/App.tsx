@@ -18,6 +18,7 @@ import { UseCases } from './components/UseCases';
 import { FaqSection } from './components/FaqSection';
 import { CompliancePage, CompliancePageType } from './components/CompliancePage';
 import { ArticleDetailPage } from './components/ArticleDetailPage';
+import { AdSenseBanner } from './components/AdSenseBanner';
 import { articlesData } from './lib/articlesData';
 import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode, BookOpen } from 'lucide-react';
 
@@ -657,6 +658,9 @@ export function App() {
                 </button>
               </div>
             </div>
+
+            {/* AdSense In-Body Ad Unit (Required by Google AdSense Verification Policy) */}
+            <AdSenseBanner locale={locale} />
 
             {/* 1. 深度操作指南 (How-To 3-step 指南) */}
             <HowToUse locale={locale} />

@@ -303,6 +303,30 @@ function buildArticleJsonLdSchema(article, canonicalUrl, locale) {
   return `  <script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n  </script>`;
 }
 
+const adLabelsByLocale = {
+  en: 'Advertisement',
+  zh: '赞助展示',
+  es: 'Publicidad',
+  ja: '広告',
+  de: 'Anzeige',
+  fr: 'Publicité',
+};
+
+function buildStaticAdSenseBanner(localeCode = 'en') {
+  const adLabel = adLabelsByLocale[localeCode] || 'Advertisement';
+  return `
+      <div class="adsense-container" style="margin: 2rem auto; max-width: 896px; text-align: center; overflow: hidden; min-height: 90px;">
+        <span style="display: block; font-size: 0.7rem; color: #86868b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">${adLabel}</span>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-2337968729641235"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+  `;
+}
+
 // 生成语义化预渲染 HTML 骨架 (为爬虫与 AdSense 审核注入数千字高价值发布商内容与代码规范表格)
 function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
   const cheatsheet = ssgCheatsheetByLocale[localeCode] || ssgCheatsheetByLocale.en;
@@ -321,7 +345,7 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
   `).join('');
 
   const articlesHtml = guides.map(g => `
-    <article style="background: #ffffff; border-radius: 1.25rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+    <article style="background: #ffffff; border-radius: 1.25rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <span style="font-size: 0.75rem; font-weight: 600; color: #0071e3; background: rgba(0,113,227,0.08); padding: 0.25rem 0.6rem; border-radius: 9999px;">${g.category}</span>
         <span style="font-size: 0.75rem; color: #86868b;">⏱️ ${g.readTime}</span>
@@ -350,10 +374,12 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
         <p style="font-size: 1.05rem; color: #86868B; line-height: 1.5;">${desc}</p>
       </header>
 
-      <main style="background: #ffffff; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 3rem;">
+      <main style="background: #ffffff; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem;">
         <p style="font-size: 0.9rem; color: #0071E3; font-weight: 600; margin-bottom: 0.5rem;">${meta.privacySafety}</p>
         <p style="font-size: 0.85rem; color: #86868B;">${meta.privacySubtitle}</p>
       </main>
+
+      ${buildStaticAdSenseBanner(localeCode)}
 
       <section id="how-to" style="margin-bottom: 3.5rem;">
         <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${howTo.title}</h2>
@@ -660,6 +686,8 @@ function buildArticlePrerenderHtml(article, allArticles, localeCode = 'en') {
         </div>
       </article>
 
+      ${buildStaticAdSenseBanner(localeCode)}
+
       <section style="margin-top: 3rem;">
         <h3 style="font-size: 1.2rem; font-weight: 700; color: #1d1d1f; margin-bottom: 1rem;">${ui.moreGuides}</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
@@ -917,7 +945,7 @@ ${sitemapBlocks.join('\n')}
 </urlset>`;
 
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf-8');
-console.log('✓ Generated: dist/sitemap.xml (66 Fully Mirrored Localized URLs)');
+console.log('✓ Generated: dist/sitemap.xml (90 Fully Mirrored Localized URLs)');
 
 // 7. 生成 robots.txt (包含 Google, AdSense 与主流 AI 搜索爬虫白名单)
 const robotsContent = `User-agent: Googlebot
@@ -957,4 +985,4 @@ if (fs.existsSync(path.join(publicDir, 'llms-full.txt'))) {
   console.log('✓ Deployed: dist/llms-full.txt (AI Search Full Knowledge Base)');
 }
 
-console.log('🎉 3-Tool Suite, 4-Page Compliance & 4-Article Tech Guides Multi-Language SSG + GEO build completed successfully!');
+console.log('🎉 3-Tool Suite, 4-Page Compliance & 8-Article Tech Guides Multi-Language SSG + GEO build completed successfully!');

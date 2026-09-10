@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-10T06:13:26.892Z",
-  "totalTests": 201,
-  "passed": 201,
+  "timestamp": "2026-09-10T06:25:34.243Z",
+  "totalTests": 202,
+  "passed": 202,
   "failed": 0,
   "categories": {
     "toolCase": {
@@ -333,8 +333,8 @@
       ]
     },
     "seoGeoAudit": {
-      "total": 141,
-      "passed": 141,
+      "total": 142,
+      "passed": 142,
       "failed": 0,
       "cases": [
         {
@@ -973,9 +973,9 @@
           "detail": ""
         },
         {
-          "name": "Sitemap.xml contains all 66 localized URLs",
+          "name": "Sitemap.xml contains all 90 localized URLs",
           "pass": true,
-          "detail": "Found 66 URLs"
+          "detail": "Found 90 URLs"
         },
         {
           "name": "Sitemap.xml contains xhtml:link alternates",
@@ -1039,6 +1039,11 @@
         },
         {
           "name": "Article contains GEO Direct Answer block",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "Article contains in-body AdSense adsbygoogle unit",
           "pass": true,
           "detail": ""
         }

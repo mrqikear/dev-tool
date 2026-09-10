@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Locale, ToolType } from '../lib/i18n';
 import { Article } from '../lib/articlesData';
 import { geoTakeawaysData, geoLabelsByLocale } from '../lib/geoTakeaways';
+import { AdSenseBanner } from './AdSenseBanner';
 import { Clock, ArrowLeft, Check, Copy, Lightbulb, AlertTriangle, Info, Sparkles, BookOpen, Zap } from 'lucide-react';
 
 interface ArticleDetailPageProps {
@@ -311,6 +312,9 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
           </button>
         </div>
       </article>
+
+      {/* AdSense In-Body Ad Unit (Required by Google AdSense Verification Policy) */}
+      <AdSenseBanner locale={locale} />
 
       {/* 底部推荐阅读 */}
       {otherArticles.length > 0 && (

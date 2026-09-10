@@ -227,14 +227,14 @@ for (const relPath of expectedPages) {
   }
 }
 
-// 5.7 Sitemap.xml 审计 (全量 66 个多语言静态 URL)
+// 5.7 Sitemap.xml 审计 (全量 90 个多语言静态 URL)
 const sitemapPath = path.join(distDir, 'sitemap.xml');
 const sitemapExists = fs.existsSync(sitemapPath);
 recordTest('seoGeoAudit', 'Sitemap.xml exists in dist', sitemapExists);
 if (sitemapExists) {
   const sitemapXml = fs.readFileSync(sitemapPath, 'utf-8');
   const urlCount = (sitemapXml.match(/<loc>/g) || []).length;
-  recordTest('seoGeoAudit', 'Sitemap.xml contains all 66 localized URLs', urlCount === 66, `Found ${urlCount} URLs`);
+  recordTest('seoGeoAudit', 'Sitemap.xml contains all 90 localized URLs', urlCount === 90, `Found ${urlCount} URLs`);
   recordTest('seoGeoAudit', 'Sitemap.xml contains xhtml:link alternates', sitemapXml.includes('xhtml:link rel="alternate"'));
 }
 
@@ -263,7 +263,7 @@ const llmsFullPath = path.join(distDir, 'llms-full.txt');
 const llmsFullExists = fs.existsSync(llmsFullPath);
 recordTest('seoGeoAudit', 'llms-full.txt exists in dist', llmsFullExists);
 
-// 5.10 技术长文 TechArticle 与 GEO Direct Answer 审计
+// 5.10 技术长文 TechArticle, GEO Direct Answer 与 AdSense 审计
 const sampleArticlePath = path.join(distDir, 'articles', 'programming-naming-conventions-complete-guide', 'index.html');
 const sampleArticleExists = fs.existsSync(sampleArticlePath);
 recordTest('seoGeoAudit', 'Sample Article HTML exists in dist', sampleArticleExists);
@@ -272,6 +272,7 @@ if (sampleArticleExists) {
   recordTest('seoGeoAudit', 'Article contains TechArticle Schema', artHtml.includes('"@type": "TechArticle"'));
   recordTest('seoGeoAudit', 'Article contains BreadcrumbList Schema', artHtml.includes('"@type": "BreadcrumbList"'));
   recordTest('seoGeoAudit', 'Article contains GEO Direct Answer block', artHtml.includes('Key Takeaways'));
+  recordTest('seoGeoAudit', 'Article contains in-body AdSense adsbygoogle unit', artHtml.includes('class="adsbygoogle"'));
 }
 
 // 保存测试结果数据供生成报告
