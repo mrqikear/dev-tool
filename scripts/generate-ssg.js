@@ -185,13 +185,40 @@ function buildHreflangTags(tool) {
     <link rel="alternate" hreflang="zh" href="${getToolUrl('zh')}" />`;
 }
 
-import { ssgCheatsheetByLocale, ssgGuidesByLocale, ssgMetaByLocale } from './ssg-data.js';
+import { 
+  ssgCheatsheetByLocale, 
+  ssgGuidesByLocale, 
+  ssgMetaByLocale,
+  ssgHowToByLocale,
+  ssgUseCasesByLocale,
+  ssgFaqByLocale
+} from './ssg-data.js';
+
+function buildFaqSchema(localeCode = 'en') {
+  const faq = ssgFaqByLocale[localeCode] || ssgFaqByLocale.en;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faq.items.map(f => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer
+      }
+    }))
+  };
+  return `  <script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n  </script>`;
+}
 
 // 生成语义化预渲染 HTML 骨架 (为爬虫与 AdSense 审核注入数千字高价值发布商内容与代码规范表格)
 function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
   const cheatsheet = ssgCheatsheetByLocale[localeCode] || ssgCheatsheetByLocale.en;
   const guides = ssgGuidesByLocale[localeCode] || ssgGuidesByLocale.en;
   const meta = ssgMetaByLocale[localeCode] || ssgMetaByLocale.en;
+  const howTo = ssgHowToByLocale[localeCode] || ssgHowToByLocale.en;
+  const useCases = ssgUseCasesByLocale[localeCode] || ssgUseCasesByLocale.en;
+  const faq = ssgFaqByLocale[localeCode] || ssgFaqByLocale.en;
 
   const tableRowsHtml = cheatsheet.rows.map(r => `
     <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
@@ -236,6 +263,38 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
         <p style="font-size: 0.85rem; color: #86868B;">${meta.privacySubtitle}</p>
       </main>
 
+      <section id="how-to" style="margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${howTo.title}</h2>
+        <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.5rem;">${howTo.subtitle}</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+          ${howTo.steps.map(s => `
+            <div style="background: #ffffff; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <div style="font-size: 0.8rem; font-weight: 700; color: #0071e3; margin-bottom: 0.5rem; font-family: monospace;">STEP ${s.step}</div>
+              <h3 style="font-size: 1.05rem; font-weight: 600; color: #1d1d1f; margin: 0 0 0.5rem 0;">${s.title}</h3>
+              <p style="font-size: 0.88rem; color: #515154; line-height: 1.5; margin: 0;">${s.desc}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <section id="use-cases" style="margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${useCases.title}</h2>
+        <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.5rem;">${useCases.subtitle}</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+          ${useCases.cases.map(c => `
+            <div style="background: #ffffff; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <div style="font-size: 0.75rem; font-weight: 600; color: #34c759; margin-bottom: 0.5rem;">${c.tag}</div>
+              <h3 style="font-size: 1.05rem; font-weight: 600; color: #1d1d1f; margin: 0 0 0.75rem 0;">${c.title}</h3>
+              <p style="font-size: 0.85rem; color: #6e6e73; line-height: 1.5; margin-bottom: 0.75rem;"><strong>Problem:</strong> ${c.problem}</p>
+              <p style="font-size: 0.85rem; color: #1d1d1f; line-height: 1.5; margin-bottom: 0.75rem;"><strong>Solution:</strong> ${c.solution}</p>
+              <div style="background: #f5f5f7; border-radius: 0.5rem; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.8rem; color: #0071e3;">
+                ${c.example}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
       <section id="cheatsheet" style="margin-bottom: 3.5rem;">
         <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${cheatsheet.title}</h2>
         <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.25rem;">${cheatsheet.subtitle}</p>
@@ -260,6 +319,21 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
         <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.75rem;">${meta.guidesSectionSubtitle}</p>
         <div style="display: flex; flex-direction: column;">
           ${articlesHtml}
+        </div>
+      </section>
+
+      <section id="faq" style="margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${faq.title}</h2>
+        <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.5rem;">${faq.subtitle}</p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          ${faq.items.map((f, idx) => `
+            <div style="background: #ffffff; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.25rem 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h3 style="font-size: 1rem; font-weight: 600; color: #1d1d1f; margin: 0 0 0.5rem 0;">
+                <span style="color: #0071e3; font-family: monospace;">Q${idx + 1}. </span>${f.question}
+              </h3>
+              <p style="font-size: 0.9rem; color: #424245; line-height: 1.6; margin: 0;">${f.answer}</p>
+            </div>
+          `).join('')}
         </div>
       </section>
 
@@ -292,6 +366,7 @@ for (const locale of locales) {
     .replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
     .replace(/<meta property="og:locale" content=".*?" \/>/, `<meta property="og:locale" content="${locale.ogLocale}" />`)
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
+    .replace('</head>', `${buildFaqSchema(locale.code)}\n  </head>`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.case.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.case.desc.replace(/"/g, '\\"')}"`)
     .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.case.title, locale.case.desc, 'case', locale.code)}</div>`);
@@ -322,6 +397,7 @@ for (const locale of locales) {
     .replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
     .replace(/<meta property="og:locale" content=".*?" \/>/, `<meta property="og:locale" content="${locale.ogLocale}" />`)
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
+    .replace('</head>', `${buildFaqSchema(locale.code)}\n  </head>`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.cron.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.cron.desc.replace(/"/g, '\\"')}"`)
     .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.cron.title, locale.cron.desc, 'cron', locale.code)}</div>`);
@@ -352,6 +428,7 @@ for (const locale of locales) {
     .replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
     .replace(/<meta property="og:locale" content=".*?" \/>/, `<meta property="og:locale" content="${locale.ogLocale}" />`)
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
+    .replace('</head>', `${buildFaqSchema(locale.code)}\n  </head>`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.json.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.json.desc.replace(/"/g, '\\"')}"`)
     .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.json.title, locale.json.desc, 'json', locale.code)}</div>`);

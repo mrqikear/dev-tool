@@ -38,8 +38,11 @@ export interface Translation {
     termsOfService: string;
     aboutContact: string;
     toolsTab: string;
-    guidesTab: string;
+    howToTab: string;
+    useCasesTab: string;
     cheatsheetTab: string;
+    guidesTab: string;
+    faqTab: string;
     readGuide: string;
     backToGuides: string;
     tryExample: string;
@@ -215,8 +218,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: 'Terms of Service',
       aboutContact: 'About & Contact',
       toolsTab: 'Utilities',
-      guidesTab: 'Developer Guides',
+      howToTab: 'How-To Guide',
+      useCasesTab: 'Use Cases',
       cheatsheetTab: 'Syntax Cheatsheet',
+      guidesTab: 'Developer Guides',
+      faqTab: 'FAQ',
       readGuide: 'Read In-Depth Guide',
       backToGuides: 'Back to Guides',
       tryExample: 'Try in Tool',
@@ -422,8 +428,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: 'Términos de Servicio',
       aboutContact: 'Acerca de y Contacto',
       toolsTab: 'Utilidades',
-      guidesTab: 'Guías Técnicas',
+      howToTab: 'Cómo usar',
+      useCasesTab: 'Casos de uso',
       cheatsheetTab: 'Tabla Rápida',
+      guidesTab: 'Guías Técnicas',
+      faqTab: 'Preguntas Frecuentes',
       readGuide: 'Leer Guía Detallada',
       backToGuides: 'Volver a Guías',
       tryExample: 'Probar en Herramienta',
@@ -621,8 +630,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: '利用規約',
       aboutContact: '運営者・お問い合わせ',
       toolsTab: 'ツール一覧',
-      guidesTab: '技術ガイド',
+      howToTab: '使い方ガイド',
+      useCasesTab: '活用事例',
       cheatsheetTab: '構文早見表',
+      guidesTab: '技術ガイド',
+      faqTab: 'よくある質問',
       readGuide: '詳細記事を読む',
       backToGuides: 'ガイド一覧へ戻る',
       tryExample: 'ツールで試す',
@@ -820,8 +832,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: 'Nutzungsbedingungen',
       aboutContact: 'Über uns & Kontakt',
       toolsTab: 'Entwickler-Tools',
-      guidesTab: 'Fachartikel',
+      howToTab: 'Anleitung',
+      useCasesTab: 'Anwendungsfälle',
       cheatsheetTab: 'Spickzettel',
+      guidesTab: 'Fachartikel',
+      faqTab: 'Häufige Fragen',
       readGuide: 'Leitfaden lesen',
       backToGuides: 'Zurück zur Übersicht',
       tryExample: 'Im Tool testen',
@@ -1015,8 +1030,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: 'Conditions d\'utilisation',
       aboutContact: 'À propos & Contact',
       toolsTab: 'Utilitaires',
-      guidesTab: 'Guides Techniques',
+      howToTab: 'Guide d\'utilisation',
+      useCasesTab: 'Cas d\'usage',
       cheatsheetTab: 'Aide-mémoire',
+      guidesTab: 'Guides Techniques',
+      faqTab: 'FAQ',
       readGuide: 'Lire le guide complet',
       backToGuides: 'Retour aux guides',
       tryExample: 'Tester dans l\'outil',
@@ -1210,8 +1228,11 @@ export const translations: Record<Locale, Translation> = {
       termsOfService: '服务条款',
       aboutContact: '关于与联系',
       toolsTab: '极客工具箱',
-      guidesTab: '技术指南专区',
+      howToTab: '3步操作指南',
+      useCasesTab: '实战使用场景',
       cheatsheetTab: '语法速查手册',
+      guidesTab: '技术指南专区',
+      faqTab: '常见问题解答',
       readGuide: '阅读深度指南',
       backToGuides: '返回指南列表',
       tryExample: '填入测试',

@@ -13,6 +13,9 @@ import { CronVisualizer } from './components/CronVisualizer';
 import { JsonProcessor } from './components/JsonProcessor';
 import { Cheatsheet } from './components/Cheatsheet';
 import { GuidesSection } from './components/GuidesSection';
+import { HowToUse } from './components/HowToUse';
+import { UseCases } from './components/UseCases';
+import { FaqSection } from './components/FaqSection';
 import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode, BookOpen } from 'lucide-react';
 
 export function App() {
@@ -169,18 +172,34 @@ export function App() {
 
             <div className="h-4 w-px bg-black/10 dark:bg-white/10 mx-1" />
             <a
-              href="#cheatsheet"
-              className="whitespace-nowrap flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              href="#how-to"
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{t.nav.cheatsheetTab}</span>
+              {t.nav.howToTab}
+            </a>
+            <a
+              href="#use-cases"
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+            >
+              {t.nav.useCasesTab}
+            </a>
+            <a
+              href="#cheatsheet"
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+            >
+              {t.nav.cheatsheetTab}
             </a>
             <a
               href="#guides"
-              className="whitespace-nowrap flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
             >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>{t.nav.guidesTab}</span>
+              {t.nav.guidesTab}
+            </a>
+            <a
+              href="#faq"
+              className="whitespace-nowrap px-2.5 py-1 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+            >
+              {t.nav.faqTab}
             </a>
           </nav>
 
@@ -251,6 +270,18 @@ export function App() {
             ⚡ {t.nav.jsonProcessor}
           </button>
           <a
+            href="#how-to"
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+          >
+            ⚡ {t.nav.howToTab}
+          </a>
+          <a
+            href="#use-cases"
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+          >
+            🎯 {t.nav.useCasesTab}
+          </a>
+          <a
             href="#cheatsheet"
             className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
           >
@@ -261,6 +292,12 @@ export function App() {
             className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
           >
             📚 {t.nav.guidesTab}
+          </a>
+          <a
+            href="#faq"
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+          >
+            💬 {t.nav.faqTab}
           </a>
         </div>
       </header>
@@ -334,10 +371,24 @@ export function App() {
           </div>
         </div>
 
-        {/* 交互式开发语法与命名速查手册 */}
+        {/* 1. 深度操作指南 (How-To 3-step 指南) */}
+        <HowToUse locale={locale} />
+
+        {/* 2. 真实使用场景与案例分析 (Use Cases) */}
+        <UseCases
+          locale={locale}
+          onTryExample={(sampleText) => {
+            updateRoute('case', locale);
+            navigator.clipboard.writeText(sampleText);
+            showToast(locale === 'zh' ? `已复制示例 [${sampleText}] 并切换至工具！` : `Copied [${sampleText}] & switched to tool!`);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+
+        {/* 3. 交互式开发语法与命名速查手册 */}
         <Cheatsheet locale={locale} onTryExample={handleTryExample} />
 
-        {/* 深度技术指南专区 (高价值发布商内容，彻底解决 AdSense 审核) */}
+        {/* 4. 深度技术指南专区 (高价值发布商内容) */}
         <GuidesSection
           locale={locale}
           activeArticleId={activeArticleId}
@@ -350,6 +401,9 @@ export function App() {
             }
           }}
         />
+
+        {/* 5. 常见问题解答 (FAQ 折叠面板) */}
+        <FaqSection locale={locale} />
       </main>
 
       {/* 底部 Apple 极简页脚 */}
@@ -361,12 +415,24 @@ export function App() {
             <span>{t.nav.footerSubtitle}</span>
           </div>
           <div className="flex items-center space-x-3 text-xs flex-wrap gap-y-2">
+            <a href="#how-to" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+              {t.nav.howToTab}
+            </a>
+            <span>•</span>
+            <a href="#use-cases" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+              {t.nav.useCasesTab}
+            </a>
+            <span>•</span>
             <a href="#cheatsheet" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.cheatsheetTab}
             </a>
             <span>•</span>
             <a href="#guides" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
               {t.nav.guidesTab}
+            </a>
+            <span>•</span>
+            <a href="#faq" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+              {t.nav.faqTab}
             </a>
             <span>•</span>
             <button
