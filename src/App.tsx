@@ -11,7 +11,9 @@ import { Locale, ToolType, languages, translations } from './lib/i18n';
 import { CaseConverter } from './components/CaseConverter';
 import { CronVisualizer } from './components/CronVisualizer';
 import { JsonProcessor } from './components/JsonProcessor';
-import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode } from 'lucide-react';
+import { Cheatsheet } from './components/Cheatsheet';
+import { GuidesSection } from './components/GuidesSection';
+import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode, BookOpen } from 'lucide-react';
 
 export function App() {
   /* [SEO & GEO 优化点 1] - 物理路径与语言/工具状态双向绑定
@@ -39,6 +41,7 @@ export function App() {
   const [isDark, setIsDark] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'about' | null>(null);
+  const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
 
   const t = translations[locale] || translations.en;
 
@@ -103,6 +106,13 @@ export function App() {
     }, 2200);
   };
 
+  const handleTryExample = (sampleText: string, targetTool: ToolType) => {
+    updateRoute(targetTool, locale);
+    navigator.clipboard.writeText(sampleText);
+    showToast(locale === 'zh' ? '已复制示例并切换至对应工具！' : 'Copied sample & switched tool!');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-[#1D1D1F] dark:text-[#F5F5F7] font-sans antialiased transition-colors duration-200 flex flex-col">
       {/* 顶部 Apple 风格磨砂导航栏 */}
@@ -156,6 +166,22 @@ export function App() {
               <FileCode className="w-3.5 h-3.5" />
               <span>{t.nav.jsonProcessor}</span>
             </button>
+
+            <div className="h-4 w-px bg-black/10 dark:bg-white/10 mx-1" />
+            <a
+              href="#cheatsheet"
+              className="whitespace-nowrap flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{t.nav.cheatsheetTab}</span>
+            </a>
+            <a
+              href="#guides"
+              className="whitespace-nowrap flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold text-[#86868B] hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors rounded-full"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{t.nav.guidesTab}</span>
+            </a>
           </nav>
 
           {/* 右侧：多语言选择 + 深色模式切换 */}
@@ -224,6 +250,18 @@ export function App() {
           >
             ⚡ {t.nav.jsonProcessor}
           </button>
+          <a
+            href="#cheatsheet"
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+          >
+            💡 {t.nav.cheatsheetTab}
+          </a>
+          <a
+            href="#guides"
+            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
+          >
+            📚 {t.nav.guidesTab}
+          </a>
         </div>
       </header>
 
@@ -232,15 +270,17 @@ export function App() {
         activeTool === 'json' ? 'max-w-7xl 2xl:max-w-[1720px]' : 'max-w-5xl'
       }`}>
         {/* 工具组件渲染 */}
-        {activeTool === 'case' && (
-          <CaseConverter locale={locale} showToast={showToast} />
-        )}
-        {activeTool === 'cron' && (
-          <CronVisualizer locale={locale} showToast={showToast} />
-        )}
-        {activeTool === 'json' && (
-          <JsonProcessor locale={locale} showToast={showToast} />
-        )}
+        <div id="tools">
+          {activeTool === 'case' && (
+            <CaseConverter locale={locale} showToast={showToast} />
+          )}
+          {activeTool === 'cron' && (
+            <CronVisualizer locale={locale} showToast={showToast} />
+          )}
+          {activeTool === 'json' && (
+            <JsonProcessor locale={locale} showToast={showToast} />
+          )}
+        </div>
 
         {/* [SEO & GEO 优化点 4] - 底部关联工具互链卡片 (Cross-Tool Hub Linking)
             向 Google 搜索引擎与 AI 爬虫建立页面之间的紧密上下文拓扑结构 */}
@@ -293,6 +333,23 @@ export function App() {
             </button>
           </div>
         </div>
+
+        {/* 交互式开发语法与命名速查手册 */}
+        <Cheatsheet locale={locale} onTryExample={handleTryExample} />
+
+        {/* 深度技术指南专区 (高价值发布商内容，彻底解决 AdSense 审核) */}
+        <GuidesSection
+          locale={locale}
+          activeArticleId={activeArticleId}
+          onSelectArticle={(id) => {
+            setActiveArticleId(id);
+            if (id) {
+              setTimeout(() => {
+                document.getElementById('article-reader')?.scrollIntoView({ behavior: 'smooth' });
+              }, 60);
+            }
+          }}
+        />
       </main>
 
       {/* 底部 Apple 极简页脚 */}
@@ -304,6 +361,14 @@ export function App() {
             <span>{t.nav.footerSubtitle}</span>
           </div>
           <div className="flex items-center space-x-3 text-xs flex-wrap gap-y-2">
+            <a href="#cheatsheet" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+              {t.nav.cheatsheetTab}
+            </a>
+            <span>•</span>
+            <a href="#guides" className="hover:underline text-[#86868B] hover:text-[#0071E3]">
+              {t.nav.guidesTab}
+            </a>
+            <span>•</span>
             <button
               onClick={() => setActiveModal('privacy')}
               className="hover:underline text-[#86868B] hover:text-[#0071E3]"

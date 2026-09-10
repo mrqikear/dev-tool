@@ -37,6 +37,16 @@ export interface Translation {
     privacyPolicy: string;
     termsOfService: string;
     aboutContact: string;
+    toolsTab: string;
+    guidesTab: string;
+    cheatsheetTab: string;
+    readGuide: string;
+    backToGuides: string;
+    tryExample: string;
+    featuredGuidesTitle: string;
+    featuredGuidesSubtitle: string;
+    cheatsheetTitle: string;
+    cheatsheetSubtitle: string;
   };
   case: {
     title: string;
@@ -204,6 +214,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
       aboutContact: 'About & Contact',
+      toolsTab: 'Utilities',
+      guidesTab: 'Developer Guides',
+      cheatsheetTab: 'Syntax Cheatsheet',
+      readGuide: 'Read In-Depth Guide',
+      backToGuides: 'Back to Guides',
+      tryExample: 'Try in Tool',
+      featuredGuidesTitle: 'In-Depth Developer Guides',
+      featuredGuidesSubtitle: 'Authoritative engineering specifications, clean code standards, and system architecture practices.',
+      cheatsheetTitle: 'Interactive Developer Cheatsheet',
+      cheatsheetSubtitle: 'Quick-reference matrices for naming conventions, cron scheduling, and JSON data structures.',
     },
     case: {
       title: 'Case & Code Naming Converter',
@@ -401,6 +421,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: 'Política de Privacidad',
       termsOfService: 'Términos de Servicio',
       aboutContact: 'Acerca de y Contacto',
+      toolsTab: 'Utilidades',
+      guidesTab: 'Guías Técnicas',
+      cheatsheetTab: 'Tabla Rápida',
+      readGuide: 'Leer Guía Detallada',
+      backToGuides: 'Volver a Guías',
+      tryExample: 'Probar en Herramienta',
+      featuredGuidesTitle: 'Guías Técnicas para Desarrolladores',
+      featuredGuidesSubtitle: 'Estándares de código limpio, sintaxis cron y arquitectura de APIs.',
+      cheatsheetTitle: 'Tabla Rápida Interactiva',
+      cheatsheetSubtitle: 'Referencias de nomenclatura, programación cron y tipos JSON.',
     },
     case: {
       title: 'Conversor de Mayúsculas y Nomenclaturas',
@@ -590,6 +620,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: 'プライバシーポリシー',
       termsOfService: '利用規約',
       aboutContact: '運営者・お問い合わせ',
+      toolsTab: 'ツール一覧',
+      guidesTab: '技術ガイド',
+      cheatsheetTab: '構文早見表',
+      readGuide: '詳細記事を読む',
+      backToGuides: 'ガイド一覧へ戻る',
+      tryExample: 'ツールで試す',
+      featuredGuidesTitle: '開発者向け詳細技術ガイド',
+      featuredGuidesSubtitle: '命名規則の標準、Cron 式の設計、TypeScript 型安全性のベストプラクティス。',
+      cheatsheetTitle: 'インタラクティブ構文早見表',
+      cheatsheetSubtitle: '命名規則、Cron スケジュール、JSON 型マッピングのクイックリファレンス。',
     },
     case: {
       title: '英字ケース＆コード命名規則 変換ツール',
@@ -779,6 +819,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: 'Datenschutzerklärung',
       termsOfService: 'Nutzungsbedingungen',
       aboutContact: 'Über uns & Kontakt',
+      toolsTab: 'Entwickler-Tools',
+      guidesTab: 'Fachartikel',
+      cheatsheetTab: 'Spickzettel',
+      readGuide: 'Leitfaden lesen',
+      backToGuides: 'Zurück zur Übersicht',
+      tryExample: 'Im Tool testen',
+      featuredGuidesTitle: 'Technische Leitfäden für Entwickler',
+      featuredGuidesSubtitle: 'Namenskonventionen, Cron-Syntax und TypeScript-Typsicherheit fundiert erklärt.',
+      cheatsheetTitle: 'Interaktiver Syntax-Spickzettel',
+      cheatsheetSubtitle: 'Schnellübersicht für Code-Benennungen, Cron-Muster und JSON-Mappings.',
     },
     case: {
       title: 'Schreibweisen- & Code-Konverter',
@@ -964,6 +1014,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: 'Confidentialité',
       termsOfService: 'Conditions d\'utilisation',
       aboutContact: 'À propos & Contact',
+      toolsTab: 'Utilitaires',
+      guidesTab: 'Guides Techniques',
+      cheatsheetTab: 'Aide-mémoire',
+      readGuide: 'Lire le guide complet',
+      backToGuides: 'Retour aux guides',
+      tryExample: 'Tester dans l\'outil',
+      featuredGuidesTitle: 'Guides Techniques Approfondis',
+      featuredGuidesSubtitle: 'Normes de nommage, syntaxe Cron et sécurité des types TypeScript pour développeurs.',
+      cheatsheetTitle: 'Aide-mémoire Interactif',
+      cheatsheetSubtitle: 'Références rapides pour les conventions de code, expressions cron et schémas JSON.',
     },
     case: {
       title: 'Convertisseur de Casse & Conventions de Code',
@@ -1149,6 +1209,16 @@ export const translations: Record<Locale, Translation> = {
       privacyPolicy: '隐私政策',
       termsOfService: '服务条款',
       aboutContact: '关于与联系',
+      toolsTab: '极客工具箱',
+      guidesTab: '技术指南专区',
+      cheatsheetTab: '语法速查手册',
+      readGuide: '阅读深度指南',
+      backToGuides: '返回指南列表',
+      tryExample: '填入测试',
+      featuredGuidesTitle: '精选开发者技术指南',
+      featuredGuidesSubtitle: '深入剖析代码命名规范、分布式调度架构、JSON 类型安全与 SEO 性能工程。',
+      cheatsheetTitle: '交互式开发语法速查表',
+      cheatsheetSubtitle: '涵盖主流命名法对比、Linux/Spring/Quartz Cron 字段对照与 TypeScript 类型映射。',
     },
     case: {
       title: '英文字母大小写与代码命名规范转换器',

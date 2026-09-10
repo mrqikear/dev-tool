@@ -185,17 +185,87 @@ function buildHreflangTags(tool) {
     <link rel="alternate" hreflang="zh" href="${getToolUrl('zh')}" />`;
 }
 
-// 生成语义化预渲染 HTML 骨架 (确保爬虫与 AI 抓取器即使禁用 JS 也能读到完整正文与 H1)
-function buildSemanticPrerenderHtml(title, desc, tool) {
+import { ssgCheatsheetByLocale, ssgGuidesByLocale, ssgMetaByLocale } from './ssg-data.js';
+
+// 生成语义化预渲染 HTML 骨架 (为爬虫与 AdSense 审核注入数千字高价值发布商内容与代码规范表格)
+function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
+  const cheatsheet = ssgCheatsheetByLocale[localeCode] || ssgCheatsheetByLocale.en;
+  const guides = ssgGuidesByLocale[localeCode] || ssgGuidesByLocale.en;
+  const meta = ssgMetaByLocale[localeCode] || ssgMetaByLocale.en;
+
+  const tableRowsHtml = cheatsheet.rows.map(r => `
+    <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+      <td style="padding: 0.75rem 1rem; font-family: monospace; font-weight: 700; color: #1d1d1f;">${r.name}</td>
+      <td style="padding: 0.75rem 1rem; font-family: monospace; color: #0071e3; background: rgba(0,113,227,0.04);">${r.example}</td>
+      <td style="padding: 0.75rem 1rem; color: #424245; font-size: 0.85rem;">${r.usage}</td>
+    </tr>
+  `).join('');
+
+  const articlesHtml = guides.map(g => `
+    <article style="background: #ffffff; border-radius: 1.25rem; border: 1px solid rgba(0,0,0,0.08); padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span style="font-size: 0.75rem; font-weight: 600; color: #0071e3; background: rgba(0,113,227,0.08); padding: 0.25rem 0.6rem; border-radius: 9999px;">${g.category}</span>
+        <span style="font-size: 0.75rem; color: #86868b;">⏱️ ${g.readTime}</span>
+      </div>
+      <h3 style="font-size: 1.35rem; font-weight: 700; color: #1d1d1f; margin: 0 0 1rem 0; line-height: 1.4;">${g.title}</h3>
+      <p style="font-size: 0.95rem; color: #333336; line-height: 1.6; margin-bottom: 0.75rem;">${g.p1}</p>
+      <p style="font-size: 0.95rem; color: #333336; line-height: 1.6; margin-bottom: 1rem;">${g.p2}</p>
+      
+      <div style="background: #18181a; border-radius: 0.75rem; overflow: hidden; margin: 1rem 0;">
+        <div style="padding: 0.5rem 1rem; background: #121214; color: #86868b; font-size: 0.75rem; font-family: monospace; border-bottom: 1px solid rgba(255,255,255,0.08);">
+          ● ● ● &nbsp; ${g.codeTitle}
+        </div>
+        <pre style="margin: 0; padding: 1rem; color: #e5e5ea; font-family: monospace; font-size: 0.82rem; overflow-x: auto; line-height: 1.5;"><code>${g.code}</code></pre>
+      </div>
+
+      <div style="background: rgba(0,113,227,0.05); border-left: 4px solid #0071e3; padding: 0.75rem 1rem; border-radius: 0 0.5rem 0.5rem 0; font-size: 0.85rem; color: #0071e3; margin-top: 1rem; font-weight: 500;">
+        💡 ${g.tip}
+      </div>
+    </article>
+  `).join('');
+
   return `
-    <div style="max-width: 1024px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="max-width: 1024px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, -apple-system, sans-serif; color: #1D1D1F;">
       <header style="margin-bottom: 2rem;">
-        <h1 style="font-size: 1.75rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${title}</h1>
-        <p style="font-size: 0.95rem; color: #86868B; line-height: 1.5;">${desc}</p>
+        <h1 style="font-size: 2rem; font-weight: 800; color: #1D1D1F; margin-bottom: 0.75rem; line-height: 1.25;">${title}</h1>
+        <p style="font-size: 1.05rem; color: #86868B; line-height: 1.5;">${desc}</p>
       </header>
-      <main style="background: #ffffff; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <p style="font-size: 0.9rem; color: #0071E3; font-weight: 600;">⚡ 100% Client-Side In-Browser Engine · Zero Data Leaves Your Device</p>
+
+      <main style="background: #ffffff; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 3rem;">
+        <p style="font-size: 0.9rem; color: #0071E3; font-weight: 600; margin-bottom: 0.5rem;">${meta.privacySafety}</p>
+        <p style="font-size: 0.85rem; color: #86868B;">${meta.privacySubtitle}</p>
       </main>
+
+      <section id="cheatsheet" style="margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1D1D1F; margin-bottom: 0.5rem;">${cheatsheet.title}</h2>
+        <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.25rem;">${cheatsheet.subtitle}</p>
+        <div style="overflow-x: auto; background: #ffffff; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+            <thead>
+              <tr style="background: rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.08);">
+                <th style="padding: 0.75rem 1rem; font-weight: 600; color: #1D1D1F;">${cheatsheet.thStyle}</th>
+                <th style="padding: 0.75rem 1rem; font-weight: 600; color: #1D1D1F;">${cheatsheet.thExample}</th>
+                <th style="padding: 0.75rem 1rem; font-weight: 600; color: #1D1D1F;">${cheatsheet.thUsage}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRowsHtml}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="guides" style="margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: #1D1D1F; margin-bottom: 0.5rem;">${meta.guidesSectionTitle}</h2>
+        <p style="font-size: 0.95rem; color: #86868B; margin-bottom: 1.75rem;">${meta.guidesSectionSubtitle}</p>
+        <div style="display: flex; flex-direction: column;">
+          ${articlesHtml}
+        </div>
+      </section>
+
+      <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.08); font-size: 0.8rem; color: #86868B; text-align: center;">
+        <p>${meta.footerNotice}</p>
+      </footer>
     </div>
   `;
 }
@@ -224,7 +294,7 @@ for (const locale of locales) {
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.case.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.case.desc.replace(/"/g, '\\"')}"`)
-    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.case.title, locale.case.desc, 'case')}</div>`);
+    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.case.title, locale.case.desc, 'case', locale.code)}</div>`);
 
   fs.writeFileSync(path.join(targetDir, 'index.html'), localizedHtml, 'utf-8');
   console.log(`✓ Generated: dist/${locale.code === 'en' ? '' : locale.code + '/'}index.html`);
@@ -254,7 +324,7 @@ for (const locale of locales) {
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.cron.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.cron.desc.replace(/"/g, '\\"')}"`)
-    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.cron.title, locale.cron.desc, 'cron')}</div>`);
+    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.cron.title, locale.cron.desc, 'cron', locale.code)}</div>`);
 
   fs.writeFileSync(path.join(targetDir, 'index.html'), localizedHtml, 'utf-8');
   console.log(`✓ Generated: dist/${locale.code === 'en' ? 'cron/' : locale.code + '/cron/'}index.html`);
@@ -284,7 +354,7 @@ for (const locale of locales) {
     .replace('data-locale="en"', `data-locale="${locale.code}"`)
     .replace(/"name": "Letter Case & Text Converter"/g, `"name": "${locale.json.appName}"`)
     .replace(/"description": "Instant online letter case and code naming convention converter."/g, `"description": "${locale.json.desc.replace(/"/g, '\\"')}"`)
-    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.json.title, locale.json.desc, 'json')}</div>`);
+    .replace(/<div id="root".*?><\/div>/, `<div id="root" data-locale="${locale.code}">${buildSemanticPrerenderHtml(locale.json.title, locale.json.desc, 'json', locale.code)}</div>`);
 
   fs.writeFileSync(path.join(targetDir, 'index.html'), localizedHtml, 'utf-8');
   console.log(`✓ Generated: dist/${locale.code === 'en' ? 'json/' : locale.code + '/json/'}index.html`);
