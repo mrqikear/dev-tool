@@ -27,9 +27,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: '官方联系邮箱',
           copyEmail: '📋 复制邮箱地址',
           copiedEmail: '✓ 已复制到剪切板',
-          openSource: '开源代码与反馈渠道',
-          openSourceDesc: 'GitHub 仓库公开 Issue 追踪与极速响应',
-          viewGithub: '访问 GitHub 仓库',
         };
       case 'es':
         return {
@@ -38,9 +35,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: 'Correo Oficial de Contacto',
           copyEmail: '📋 Copiar Correo',
           copiedEmail: '✓ Copiado al portapapeles',
-          openSource: 'Código Abierto y Soporte',
-          openSourceDesc: 'Seguimiento de incidencias en GitHub con soporte rápido',
-          viewGithub: 'Ver Repositorio GitHub',
         };
       case 'ja':
         return {
@@ -49,9 +43,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: '公式連絡先メール',
           copyEmail: '📋 メールアドレスをコピー',
           copiedEmail: '✓ クリップボードにコピー完了',
-          openSource: 'オープンソース＆課題管理',
-          openSourceDesc: 'GitHub Issue トラッカー＆迅速なフィードバック',
-          viewGithub: 'GitHub リポジトリを見る',
         };
       case 'de':
         return {
@@ -60,9 +51,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: 'Offizielle E-Mail',
           copyEmail: '📋 E-Mail kopieren',
           copiedEmail: '✓ In die Zwischenablage kopiert',
-          openSource: 'Open Source & Feedback',
-          openSourceDesc: 'GitHub Issue-Tracker & schneller Entwickler-Support',
-          viewGithub: 'GitHub-Repository ansehen',
         };
       case 'fr':
         return {
@@ -71,9 +59,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: 'Email Officiel de Contact',
           copyEmail: '📋 Copier l\'adresse email',
           copiedEmail: '✓ Copié dans le presse-papiers',
-          openSource: 'Code Open Source & Support',
-          openSourceDesc: 'Suivi des signalements GitHub & réponses rapides',
-          viewGithub: 'Voir le dépôt GitHub',
         };
       default:
         return {
@@ -82,9 +67,6 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
           officialEmail: 'Official Contact Email',
           copyEmail: '📋 Copy Email Address',
           copiedEmail: '✓ Copied to clipboard',
-          openSource: 'Open Source Code & Issues',
-          openSourceDesc: 'GitHub Issue Tracker & SLA Fast Response',
-          viewGithub: 'View GitHub Repository',
         };
     }
   };
@@ -165,45 +147,23 @@ export const CompliancePage: React.FC<CompliancePageProps> = ({
 
         {/* Contact 特别卡片 */}
         {page === 'contact' && data.contactEmail && (
-          <div className="mt-10 pt-8 border-t border-black/[0.06] dark:border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-[#F5F5F7] dark:bg-[#2C2C2E] flex flex-col justify-between">
+          <div className="mt-10 pt-8 border-t border-black/[0.06] dark:border-white/[0.08]">
+            <div className="p-6 rounded-2xl bg-[#F5F5F7] dark:bg-[#2C2C2E] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <span className="text-xs font-semibold text-[#86868B] uppercase tracking-wider block mb-1">
                   {ui.officialEmail}
                 </span>
-                <span className="text-base font-mono font-bold text-[#0071E3] dark:text-[#2997FF] break-all">
+                <span className="text-base sm:text-lg font-mono font-bold text-[#0071E3] dark:text-[#2997FF] break-all">
                   {data.contactEmail}
                 </span>
               </div>
               <button
                 onClick={copyEmail}
-                className="mt-4 inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-white dark:bg-[#1C1C1E] border border-black/[0.06] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-[#0071E3] hover:text-white transition-colors"
+                className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-semibold bg-white dark:bg-[#1C1C1E] border border-black/[0.06] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-[#0071E3] hover:text-white transition-colors shrink-0"
               >
                 <span>{copiedEmail ? ui.copiedEmail : ui.copyEmail}</span>
               </button>
             </div>
-
-            {data.githubUrl && (
-              <div className="p-5 rounded-2xl bg-[#F5F5F7] dark:bg-[#2C2C2E] flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-semibold text-[#86868B] uppercase tracking-wider block mb-1">
-                    {ui.openSource}
-                  </span>
-                  <span className="text-xs sm:text-sm font-medium text-[#1D1D1F] dark:text-[#F5F5F7] block">
-                    {ui.openSourceDesc}
-                  </span>
-                </div>
-                <a
-                  href={data.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-[#1D1D1F] text-white dark:bg-white dark:text-[#1D1D1F] hover:opacity-90 transition-opacity"
-                >
-                  <span>{ui.viewGithub}</span>
-                  <span>↗</span>
-                </a>
-              </div>
-            )}
           </div>
         )}
       </article>

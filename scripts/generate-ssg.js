@@ -472,12 +472,12 @@ function buildSemanticPrerenderHtml(title, desc, tool, localeCode = 'en') {
 }
 
 const complianceNavByLocale = {
-  en: { about: 'About Us', privacy: 'Privacy Policy', terms: 'Terms of Service', contact: 'Contact Us', home: 'Home', back: 'Back to Developer Utilities', officialEmail: 'Official Contact Email', openSource: 'Open Source Code & Issues', repoLink: 'View GitHub Repository' },
-  zh: { about: '关于我们', privacy: '隐私政策', terms: '服务条款', contact: '联系我们', home: '首页', back: '返回开发者工具箱', officialEmail: '官方联系邮箱', openSource: '开源代码与反馈渠道', repoLink: '访问 GitHub 仓库' },
-  es: { about: 'Sobre Nosotros', privacy: 'Política de Privacidad', terms: 'Términos de Servicio', contact: 'Contacto', home: 'Inicio', back: 'Volver a Herramientas', officialEmail: 'Correo Oficial de Contacto', openSource: 'Código Abierto y Soporte', repoLink: 'Ver Repositorio GitHub' },
-  ja: { about: '会社・開発者概要', privacy: 'プライバシーポリシー', terms: '利用規約', contact: 'お問い合わせ', home: 'ホーム', back: 'ツール一覧に戻る', officialEmail: '公式連絡先メール', openSource: 'オープンソース＆課題管理', repoLink: 'GitHub リポジトリを見る' },
-  de: { about: 'Über Uns', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', contact: 'Kontakt', home: 'Startseite', back: 'Zurück zu den Tools', officialEmail: 'Offizielle E-Mail', openSource: 'Open Source & Feedback', repoLink: 'GitHub-Repository ansehen' },
-  fr: { about: 'À Propos', privacy: 'Politique de Confidentialité', terms: 'Conditions d\'Utilisation', contact: 'Contact', home: 'Accueil', back: 'Retour aux outils', officialEmail: 'Email Officiel de Contact', openSource: 'Code Open Source & Support', repoLink: 'Voir le dépôt GitHub' },
+  en: { about: 'About Us', privacy: 'Privacy Policy', terms: 'Terms of Service', contact: 'Contact Us', home: 'Home', back: 'Back to Developer Utilities', officialEmail: 'Official Contact Email' },
+  zh: { about: '关于我们', privacy: '隐私政策', terms: '服务条款', contact: '联系我们', home: '首页', back: '返回开发者工具箱', officialEmail: '官方联系邮箱' },
+  es: { about: 'Sobre Nosotros', privacy: 'Política de Privacidad', terms: 'Términos de Servicio', contact: 'Contacto', home: 'Inicio', back: 'Volver a Herramientas', officialEmail: 'Correo Oficial de Contacto' },
+  ja: { about: '会社・開発者概要', privacy: 'プライバシーポリシー', terms: '利用規約', contact: 'お問い合わせ', home: 'ホーム', back: 'ツール一覧に戻る', officialEmail: '公式連絡先メール' },
+  de: { about: 'Über Uns', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', contact: 'Kontakt', home: 'Startseite', back: 'Zurück zu den Tools', officialEmail: 'Offizielle E-Mail' },
+  fr: { about: 'À Propos', privacy: 'Politique de Confidentialité', terms: 'Conditions d\'Utilisation', contact: 'Contact', home: 'Accueil', back: 'Retour aux outils', officialEmail: 'Email Officiel de Contact' },
 };
 
 // 为爬虫与 AdSense 审核预渲染完整合规页面 (关于我们、隐私政策、服务条款、联系我们)
@@ -496,17 +496,14 @@ function buildCompliancePrerenderHtml(pageType, localeCode = 'en') {
   let contactBoxHtml = '';
   if (pageType === 'contact' && pageData.contactEmail) {
     contactBoxHtml = `
-      <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-        <div style="background: #f5f5f7; border-radius: 1rem; padding: 1.25rem;">
-          <span style="font-size: 0.75rem; font-weight: 600; color: #86868b; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">${ui.officialEmail}</span>
-          <a href="mailto:${pageData.contactEmail}" style="font-size: 1.05rem; font-family: monospace; font-weight: 700; color: #0071e3; text-decoration: none;">${pageData.contactEmail}</a>
+      <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.08);">
+        <div style="background: #f5f5f7; border-radius: 1rem; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span style="font-size: 0.75rem; font-weight: 600; color: #86868b; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">${ui.officialEmail}</span>
+            <a href="mailto:${pageData.contactEmail}" style="font-size: 1.1rem; font-family: monospace; font-weight: 700; color: #0071e3; text-decoration: none;">${pageData.contactEmail}</a>
+          </div>
+          <a href="mailto:${pageData.contactEmail}" style="padding: 0.6rem 1.2rem; border-radius: 9999px; background: #0071e3; color: #ffffff; text-decoration: none; font-size: 0.85rem; font-weight: 600;">${ui.officialEmail} →</a>
         </div>
-        ${pageData.githubUrl ? `
-        <div style="background: #f5f5f7; border-radius: 1rem; padding: 1.25rem;">
-          <span style="font-size: 0.75rem; font-weight: 600; color: #86868b; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">${ui.openSource}</span>
-          <a href="${pageData.githubUrl}" target="_blank" rel="noreferrer" style="display: inline-block; margin-top: 0.25rem; font-size: 0.9rem; font-weight: 600; color: #1d1d1f; text-decoration: underline;">${ui.repoLink} ↗</a>
-        </div>
-        ` : ''}
       </div>
     `;
   }
