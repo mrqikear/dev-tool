@@ -17,6 +17,8 @@ import { HowToUse } from './components/HowToUse';
 import { UseCases } from './components/UseCases';
 import { FaqSection } from './components/FaqSection';
 import { CompliancePage, CompliancePageType } from './components/CompliancePage';
+import { ArticleDetailPage } from './components/ArticleDetailPage';
+import { articlesData } from './lib/articlesData';
 import { Globe, Sun, Moon, Sparkles, Clock, Type, Check, ShieldCheck, Zap, FileCode, BookOpen } from 'lucide-react';
 
 export function App() {
@@ -31,9 +33,21 @@ export function App() {
     return 'case';
   });
 
-  const [currentPage, setCurrentPage] = useState<'tools' | CompliancePageType>(() => {
+  const [activeArticleSlug, setActiveArticleSlug] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
       const path = window.location.pathname.toLowerCase();
+      if (path.includes('/articles/')) {
+        const parts = path.split('/articles/');
+        if (parts[1]) return parts[1].replace(/\/$/, '');
+      }
+    }
+    return null;
+  });
+
+  const [currentPage, setCurrentPage] = useState<'tools' | CompliancePageType | 'article'>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('/articles/')) return 'article';
       if (path.includes('/about')) return 'about';
       if (path.includes('/privacy')) return 'privacy';
       if (path.includes('/terms')) return 'terms';
@@ -103,8 +117,25 @@ export function App() {
     }
   };
 
+  const navigateToArticle = (slug: string, targetLocale: Locale = locale) => {
+    setCurrentPage('article');
+    setActiveArticleSlug(slug);
+    setLocale(targetLocale);
+    if (typeof window !== 'undefined') {
+      const targetPath = targetLocale === 'en' ? `/articles/${slug}/` : `/${targetLocale}/articles/${slug}/`;
+      window.history.pushState({}, '', targetPath);
+      const articles = articlesData[targetLocale] || articlesData.en;
+      const art = articles.find(a => a.slug === slug || a.id === slug);
+      if (art) {
+        document.title = `${art.title} - DevText`;
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const navigateToTools = (targetTool: ToolType = 'case', targetLocale: Locale = locale) => {
     setCurrentPage('tools');
+    setActiveArticleSlug(null);
     updateRoute(targetTool, targetLocale);
   };
 
@@ -121,12 +152,25 @@ export function App() {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname.toLowerCase();
-      if (path.includes('/about')) setCurrentPage('about');
-      else if (path.includes('/privacy')) setCurrentPage('privacy');
-      else if (path.includes('/terms')) setCurrentPage('terms');
-      else if (path.includes('/contact')) setCurrentPage('contact');
-      else {
+      if (path.includes('/articles/')) {
+        setCurrentPage('article');
+        const parts = path.split('/articles/');
+        if (parts[1]) setActiveArticleSlug(parts[1].replace(/\/$/, ''));
+      } else if (path.includes('/about')) {
+        setCurrentPage('about');
+        setActiveArticleSlug(null);
+      } else if (path.includes('/privacy')) {
+        setCurrentPage('privacy');
+        setActiveArticleSlug(null);
+      } else if (path.includes('/terms')) {
+        setCurrentPage('terms');
+        setActiveArticleSlug(null);
+      } else if (path.includes('/contact')) {
+        setCurrentPage('contact');
+        setActiveArticleSlug(null);
+      } else {
         setCurrentPage('tools');
+        setActiveArticleSlug(null);
         if (path.includes('/cron')) setActiveTool('cron');
         else if (path.includes('/json')) setActiveTool('json');
         else setActiveTool('case');
@@ -158,7 +202,11 @@ export function App() {
     if (typeof document !== 'undefined') {
       document.documentElement.lang = langMap[locale] || 'en';
       let pageTitle = t.case.title;
-      if (currentPage === 'about') pageTitle = t.nav.aboutUs;
+      if (currentPage === 'article' && activeArticleSlug) {
+        const articles = articlesData[locale] || articlesData.en;
+        const currentArt = articles.find(a => a.slug === activeArticleSlug || a.id === activeArticleSlug);
+        if (currentArt) pageTitle = currentArt.title;
+      } else if (currentPage === 'about') pageTitle = t.nav.aboutUs;
       else if (currentPage === 'privacy') pageTitle = t.nav.privacyPolicy;
       else if (currentPage === 'terms') pageTitle = t.nav.termsOfService;
       else if (currentPage === 'contact') pageTitle = t.nav.contactUs;
@@ -166,7 +214,7 @@ export function App() {
       else if (activeTool === 'json') pageTitle = t.json.title;
       document.title = `${pageTitle} - DevText`;
     }
-  }, [locale, activeTool, currentPage, t]);
+  }, [locale, activeTool, currentPage, activeArticleSlug, t]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -283,8 +331,10 @@ export function App() {
                 value={locale}
                 onChange={(e) => {
                   const newLoc = e.target.value as Locale;
-                  if (currentPage !== 'tools') {
-                    navigateToCompliance(currentPage, newLoc);
+                  if (currentPage === 'article' && activeArticleSlug) {
+                    navigateToArticle(activeArticleSlug, newLoc);
+                  } else if (currentPage !== 'tools') {
+                    navigateToCompliance(currentPage as CompliancePageType, newLoc);
                   } else {
                     updateRoute(activeTool, newLoc);
                   }
@@ -348,12 +398,6 @@ export function App() {
             ⚡ {t.nav.jsonProcessor}
           </button>
           <a
-            href="#how-to"
-            className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
-          >
-            ⚡ {t.nav.howToTab}
-          </a>
-          <a
             href="#use-cases"
             className="whitespace-nowrap px-3 py-1 text-xs font-semibold rounded-full text-[#86868B] bg-black/[0.04] dark:bg-white/[0.06]"
           >
@@ -384,7 +428,22 @@ export function App() {
       <main className={`flex-1 w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6 transition-all duration-300 ${
         activeTool === 'json' && currentPage === 'tools' ? 'max-w-7xl 2xl:max-w-[1720px]' : 'max-w-5xl'
       }`}>
-        {currentPage !== 'tools' ? (
+        {currentPage === 'article' ? (
+          (() => {
+            const articles = articlesData[locale] || articlesData.en;
+            const currentArt = articles.find(a => a.slug === activeArticleSlug || a.id === activeArticleSlug) || articles[0];
+            return (
+              <ArticleDetailPage
+                article={currentArt}
+                allArticles={articles}
+                locale={locale}
+                onBackToTools={() => navigateToTools(activeTool, locale)}
+                onSelectArticle={(slug) => navigateToArticle(slug, locale)}
+                onOpenTool={(tool) => navigateToTools(tool, locale)}
+              />
+            );
+          })()
+        ) : currentPage !== 'tools' ? (
           <CompliancePage
             page={currentPage}
             locale={locale}
@@ -476,13 +535,9 @@ export function App() {
             {/* 4. 深度技术指南专区 (高价值发布商内容) */}
             <GuidesSection
               locale={locale}
-              activeArticleId={activeArticleId}
-              onSelectArticle={(id) => {
-                setActiveArticleId(id);
-                if (id) {
-                  setTimeout(() => {
-                    document.getElementById('article-reader')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 60);
+              onSelectArticle={(slug) => {
+                if (slug) {
+                  navigateToArticle(slug, locale);
                 }
               }}
             />

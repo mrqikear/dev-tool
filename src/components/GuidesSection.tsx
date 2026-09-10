@@ -186,40 +186,47 @@ export function GuidesSection({ locale, activeArticleId, onSelectArticle }: Guid
 
       {/* 4 篇指南卡片网格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {articles.map((article) => (
-          <div
-            key={article.id}
-            onClick={() => onSelectArticle(article.id)}
-            className="group cursor-pointer bg-white dark:bg-[#161618] border border-black/[0.06] dark:border-white/[0.08] rounded-3xl p-6 transition-all duration-200 hover:-translate-y-1 hover:border-[#0071E3]/50 hover:shadow-xl flex flex-col justify-between"
-          >
-            <div>
-              {/* 分类标签与阅读时长 */}
-              <div className="flex items-center justify-between mb-3 text-xs text-[#86868B]">
-                <span className="px-2.5 py-1 rounded-full bg-black/[0.04] dark:bg-white/[0.06] font-medium text-[#0071E3] dark:text-[#2997FF]">
-                  {article.category}
-                </span>
-                <span className="flex items-center space-x-1">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>{article.readTime}</span>
-                </span>
+        {articles.map((article) => {
+          const articleHref = locale === 'en' ? `/articles/${article.slug}/` : `/${locale}/articles/${article.slug}/`;
+          return (
+            <a
+              key={article.id}
+              href={articleHref}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectArticle(article.slug);
+              }}
+              className="group cursor-pointer bg-white dark:bg-[#161618] border border-black/[0.06] dark:border-white/[0.08] rounded-3xl p-6 transition-all duration-200 hover:-translate-y-1 hover:border-[#0071E3]/50 hover:shadow-xl flex flex-col justify-between block no-underline"
+            >
+              <div>
+                {/* 分类标签与阅读时长 */}
+                <div className="flex items-center justify-between mb-3 text-xs text-[#86868B]">
+                  <span className="px-2.5 py-1 rounded-full bg-black/[0.04] dark:bg-white/[0.06] font-medium text-[#0071E3] dark:text-[#2997FF]">
+                    {article.category}
+                  </span>
+                  <span className="flex items-center space-x-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>{article.readTime}</span>
+                  </span>
+                </div>
+
+                {/* 标题与摘要 */}
+                <h3 className="text-lg font-bold text-[#1D1D1F] dark:text-[#F5F5F7] group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors leading-snug mb-2">
+                  {article.title}
+                </h3>
+                <p className="text-xs md:text-sm text-[#86868B] leading-relaxed line-clamp-3 mb-6">
+                  {article.summary}
+                </p>
               </div>
 
-              {/* 标题与摘要 */}
-              <h3 className="text-lg font-bold text-[#1D1D1F] dark:text-[#F5F5F7] group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors leading-snug mb-2">
-                {article.title}
-              </h3>
-              <p className="text-xs md:text-sm text-[#86868B] leading-relaxed line-clamp-3 mb-6">
-                {article.summary}
-              </p>
-            </div>
-
-            {/* 查看按钮 */}
-            <div className="pt-4 border-t border-black/[0.04] dark:border-white/[0.06] flex items-center justify-between text-xs font-semibold text-[#0071E3] dark:text-[#2997FF]">
-              <span>{nav.readGuide || 'Read In-Depth Guide'}</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </div>
-          </div>
-        ))}
+              {/* 查看按钮 */}
+              <div className="pt-4 border-t border-black/[0.04] dark:border-white/[0.04] flex items-center justify-between text-xs font-semibold text-[#0071E3] dark:text-[#2997FF]">
+                <span>{nav.readGuide || 'Read In-Depth Guide'}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </div>
+            </a>
+          );
+        })}
       </div>
     </section>
   );
